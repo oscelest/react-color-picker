@@ -1,100 +1,72 @@
 import {InputField, InputFieldType} from "@noxy/react-input-field";
-import {useState, useEffect, useRef} from "react";
-import {asHex, fromHSV2RGB, fromHexToHSVA} from "../Utility";
+import {asHex, fromHexToHSVA, fromHSV2Blue, fromHSV2Green, fromHSV2Red} from "../Utility";
+import {useState, useEffect} from "react";
 
-const default_hue = 0;
-const default_saturation = 100;
-const default_value = 100;
-const default_alpha = 100;
+const filter = /\d{0,3}/;
+
+function parseInput(input: string, max: number) {
+  return Math.min(max, Math.max(0, +input));
+}
 
 function HSVAInput(props: HSVAInputProps) {
-  const [hue, setHue] = useState<number>();
-  const [saturation, setSaturation] = useState<number>();
-  const [value, setValue] = useState<number>();
-  const [alpha, setAlpha] = useState<number>();
-  const ref = useRef<HSVARef>();
-  ref.current = {hue, saturation, value, alpha};
+  const [hue_input, setHueInput] = useState<string>("");
+  const [saturation_input, setSaturationInput] = useState<string>("");
+  const [value_input, setValueInput] = useState<string>("");
+  const [alpha_input, setAlphaInput] = useState<string>("");
+  const {hue, saturation, value, alpha} = fromHexToHSVA(props.hex);
 
   useEffect(
     () => {
       const {hue, saturation, value, alpha} = fromHexToHSVA(props.hex);
-      setHue(hue);
-      setSaturation(saturation);
-      setValue(value);
-      setAlpha(alpha);
+      setHueInput(String(hue ?? ""));
+      setSaturationInput(String(saturation ?? ""));
+      setValueInput(String(value ?? ""));
+      setAlphaInput(String(alpha ?? ""));
     },
     [props.hex]
   );
 
-  const hue_input = hue ?? "";
-  const saturation_input = saturation ?? "";
-  const value_input = value ? Math.round(value / 2.55) : "";
-  const alpha_input = alpha ? Math.round(alpha / 2.55) : "";
-
   return (
     <>
-      <InputField className={"hsva-input hue"} type={InputFieldType.TEL} label={"Hue"} input={hue_input} onInputChange={onHueChange}/>
-      <InputField className={"hsva-input saturation"} type={InputFieldType.TEL} label={"Saturation"} input={saturation_input} onInputChange={onSaturationChange}/>
-      <InputField className={"hsva-input value"} type={InputFieldType.TEL} label={"Value"} input={value_input} onInputChange={onValueChange}/>
-      <InputField className={"hsva-input alpha"} type={InputFieldType.TEL} label={"Alpha"} input={alpha_input} onInputChange={onAlphaChange}/>
+      <InputField className={"hsva-input hue"} type={InputFieldType.TEL} label={"Hue"} input={hue_input} filter={filter} onInputChange={onHueChange}/>
+      <InputField className={"hsva-input saturation"} type={InputFieldType.TEL} label={"Saturation"} input={saturation_input} filter={filter} onInputChange={onSaturationChange}/>
+      <InputField className={"hsva-input value"} type={InputFieldType.TEL} label={"Value"} input={value_input} filter={filter} onInputChange={onValueChange}/>
+      <InputField className={"hsva-input alpha"} type={InputFieldType.TEL} label={"Alpha"} input={alpha_input} filter={filter} onInputChange={onAlphaChange}/>
     </>
   );
 
-  function onHueChange(input: string) {
-    if (ref.current) {
-      input = input.replace(/\D/, "");
-      const hue = Math.min(360, Math.max(0, parseInt(input) || default_hue));
-      setHue(input !== "" ? hue : undefined);
-      updateColor({...ref.current, hue});
-    }
+  function onHueChange(hue: string) {
+    setHueInput(hue);
+    if (hue) return updateColor(parseInput(hue, 360), saturation, value, alpha);
+    if (!hue && saturation === undefined && value === undefined && alpha === undefined) props.onChange();
   }
 
-  function onSaturationChange(input: string) {
-    if (ref.current) {
-      input = input.replace(/\D/, "");
-      const saturation = Math.min(100, Math.max(0, parseInt(input) || default_saturation));
-      setSaturation(input !== "" ? saturation : undefined);
-      updateColor({...ref.current, saturation});
-    }
+  function onSaturationChange(saturation: string) {
+    setSaturationInput(saturation);
+    if (saturation) return updateColor(hue, parseInput(saturation, 360), value, alpha);
+    if (hue === undefined && !saturation && value === undefined && alpha === undefined) props.onChange();
   }
 
-  function onValueChange(input: string) {
-    if (ref.current) {
-      input = input.replace(/\D/, "");
-      const value = Math.min(100, Math.max(0, parseInt(input) || default_value));
-      setValue(input !== "" ? value : undefined);
-      updateColor({...ref.current, value});
-    }
+  function onValueChange(value: string) {
+    setValueInput(value);
+    if (value) return updateColor(hue, saturation, parseInput(value, 360), alpha);
+    if (!hue && saturation === undefined && !value && alpha === undefined) props.onChange();
   }
 
-  function onAlphaChange(input: string) {
-    if (ref.current) {
-      input = input.replace(/\D/, "");
-      const alpha = Math.min(100, Math.max(0, parseInt(input) || default_alpha));
-      setAlpha(input !== "" ? alpha : undefined);
-      updateColor({...ref.current, alpha});
-    }
+  function onAlphaChange(alpha: string) {
+    setAlphaInput(alpha);
+    if (alpha) return updateColor(hue, saturation, value, parseInput(alpha, 360));
+    if (hue === undefined && saturation === undefined && value === undefined && !alpha) props.onChange();
   }
 
-  function updateColor(color: HSVARef) {
-    if (color.hue === undefined && color.saturation === undefined && color.value === undefined && color.alpha === undefined) return props.onChange();
-    let {hue = default_hue, saturation = default_saturation, value = default_value, alpha = default_alpha} = color;
-
+  function updateColor(hue: number = 0, saturation: number = 100, value: number = 100, alpha: number = 100) {
     saturation /= 100;
     value /= 100;
-
-    const red = fromHSV2RGB(hue, saturation, value, 5);
-    const green = fromHSV2RGB(hue, saturation, value, 3);
-    const blue = fromHSV2RGB(hue, saturation, value, 1);
-    props.onChange(`#${asHex(red * 2.55)}${asHex(green * 2.55)}${asHex(blue * 2.55)}${asHex(alpha * 2.55)}`);
+    const red = fromHSV2Red(hue, saturation, value);
+    const green = fromHSV2Green(hue, saturation, value);
+    const blue = fromHSV2Blue(hue, saturation, value);
+    props.onChange(`#${asHex(red)}${asHex(green)}${asHex(blue)}${asHex(alpha * 2.55)}`);
   }
-}
-
-interface HSVARef {
-  hue?: number;
-  saturation?: number;
-  value?: number;
-  alpha?: number;
 }
 
 export interface HSVAInputProps {
