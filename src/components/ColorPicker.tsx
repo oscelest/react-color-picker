@@ -12,7 +12,6 @@ const Style = require("./ColorPicker.module.css");
 function ColorPicker(props: ColorPickerProps) {
   const [cursor_point, setCursorPoint] = useState();
   const [type, setType] = useState<number>(0);
-  const [type_input, setTypeInput] = useState<string>("");
 
   const classes = [Style.Component, "color-picker"];
   if (props.className) classes.push(props.className);
@@ -36,7 +35,7 @@ function ColorPicker(props: ColorPickerProps) {
       </div>
       <div className={"color-picker-preview"} style={preview_color}/>
       <div className={"color-picker-info"}>
-        <InputField label={"Type"} max={3} input={type_input} onInputChange={setTypeInput} onCommit={onTypeCommit}>
+        <InputField label={"Type"} max={3} input={ColorPickerType[type]} onCommit={onTypeCommit}>
           <span>{"Hex"}</span>
           <span>{"RGB"}</span>
           <span>{"HSV"}</span>
@@ -48,9 +47,8 @@ function ColorPicker(props: ColorPickerProps) {
   );
 
   function onTypeCommit(input: string, index: number) {
-    index = index > -1 ? index : type
-    setType(index);
-    setTypeInput(ColorPickerType[index]);
+    setType(index > -1 ? index : type);
+
   }
 
   function renderInfo() {
