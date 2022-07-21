@@ -5,7 +5,7 @@ function HexInput(props: HexInputProps) {
 
   return (
     <>
-      <InputField className={"hsva-input hex"} type={InputFieldType.TEXT} label={"Hex"} input={props.hex ?? ""} onInputChange={onHexChange} onCommit={onHexCommit}/>
+      <InputField className={"hex-input hex"} type={InputFieldType.TEXT} label={"Hex"} input={props.hex ?? ""} onInputChange={onHexChange} onCommit={onHexCommit}/>
     </>
   );
 

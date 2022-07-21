@@ -43,19 +43,19 @@ function HSVAInput(props: HSVAInputProps) {
 
   function onSaturationChange(saturation: string) {
     setSaturationInput(saturation);
-    if (saturation) return updateColor(hue, parseInput(saturation, 360), value, alpha);
+    if (saturation) return updateColor(hue, parseInput(saturation, 100), value, alpha);
     if (hue === undefined && !saturation && value === undefined && alpha === undefined) props.onChange();
   }
 
   function onValueChange(value: string) {
     setValueInput(value);
-    if (value) return updateColor(hue, saturation, parseInput(value, 360), alpha);
+    if (value) return updateColor(hue, saturation, parseInput(value, 100), alpha);
     if (!hue && saturation === undefined && !value && alpha === undefined) props.onChange();
   }
 
   function onAlphaChange(alpha: string) {
     setAlphaInput(alpha);
-    if (alpha) return updateColor(hue, saturation, value, parseInput(alpha, 360));
+    if (alpha) return updateColor(hue, saturation, value, parseInput(alpha, 100));
     if (hue === undefined && saturation === undefined && value === undefined && !alpha) props.onChange();
   }
 

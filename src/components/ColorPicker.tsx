@@ -35,7 +35,7 @@ function ColorPicker(props: ColorPickerProps) {
       </div>
       <div className={"color-picker-preview"} style={preview_color}/>
       <div className={"color-picker-info"}>
-        <InputField label={"Type"} max={3} input={ColorPickerType[type]} onCommit={onTypeCommit}>
+        <InputField label={"Type"} max={3} caret={true} input={ColorPickerType[type]} onCommit={onTypeCommit}>
           <span>{"Hex"}</span>
           <span>{"RGB"}</span>
           <span>{"HSV"}</span>
@@ -47,8 +47,11 @@ function ColorPicker(props: ColorPickerProps) {
   );
 
   function onTypeCommit(input: string, index: number) {
-    setType(index > -1 ? index : type);
-
+    if (index > -1) {
+      setType(index);
+      return {input, index};
+    }
+    return {input: ColorPickerType[type], index: type};
   }
 
   function renderInfo() {
@@ -59,11 +62,11 @@ function ColorPicker(props: ColorPickerProps) {
         );
       case 2:
         return (
-          <HSLAInput hex={props.color} onChange={onChange}/>
+          <HSVAInput hex={props.color} onChange={onChange}/>
         );
       case 3:
         return (
-          <HSVAInput hex={props.color} onChange={onChange}/>
+          <HSLAInput hex={props.color} onChange={onChange}/>
         );
       default:
         return (
