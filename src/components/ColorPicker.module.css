@@ -21,15 +21,39 @@
   padding:               5px;
 }
 
-.Component:global(.color-picker .color-picker-display) {
-  flex: 0 0 auto;
-}
-
 .Component:global(.color-picker .color-picker-control) {
   flex:            0 0 auto;
   grid-column-gap: 8px;
   justify-content: center;
 }
+
+
+.Component:global(.color-picker .color-picker-window) {
+  flex:            0 0 auto;
+  grid-column-gap: 8px;
+  justify-content: center;
+}
+
+.Component:global(.color-picker .color-picker-window:before) {
+  background: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0));
+}
+
+.Component:global(.color-picker .color-picker-window:after) {
+  background: linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0));
+}
+
+.Component:global(.color-picker .color-picker-window-cursor) {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid white;
+  box-shadow: 0 0 0 1px black inset;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+}
+
+
 
 .Component:global(.color-picker .color-picker-control-value) {
   width:  8px;
@@ -74,13 +98,25 @@
   bottom:   0;
 }
 
-.Component:global(.color-picker .color-picker-window:before) {
-  background: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0));
+.Component:global(.color-picker .color-picker-range-hue) {
+background: rgba(0, 0, 0, 0)
+            linear-gradient(
+                to right,
+                rgb(255, 0, 0) 0%,
+                rgb(255, 255, 0) 17%,
+                rgb(0, 255, 0) 33%,
+                rgb(0, 255, 255) 50%,
+                rgb(0, 0, 255) 67%,
+                rgb(255, 0, 255) 83%,
+                rgb(255, 0, 0) 100%)
+            repeat
+            scroll
+            0
+            0;
 }
 
-.Component:global(.color-picker .color-picker-window:after) {
-  background: linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0));
-}
+
+
 
 .Component:global(.color-picker .color-picker-window-cursor) {
 }
@@ -118,22 +154,3 @@
 .Component:global(.color-picker .color-picker-info .color-picker-info-alpha) {
   width: 45px;
 }
-
-
-/*<div className={"color-picker-display"}>*/
-/*  <div className={"color-picker-controls"}>*/
-/*    <div className={"color-picker-control-value"}></div>*/
-/*    <div className={"color-picker-control-alpha"}></div>*/
-/*    <div className={"color-picker-preview"}></div>*/
-/*  </div>*/
-/*  <div className={"color-picker-window"}>*/
-/*    <div className={"color-picker-cursor"}/>*/
-/*  </div>*/
-/*  <div className={"color-picker-info"}>*/
-/*    <input className={"color-picker-info-hex"}/>*/
-/*    <input className={"color-picker-info-red"}/>*/
-/*    <input className={"color-picker-info-blue"}/>*/
-/*    <input className={"color-picker-info-green"}/>*/
-/*    <input className={"color-picker-info-alpha"}/>*/
-/*  </div>*/
-/*</div>*/

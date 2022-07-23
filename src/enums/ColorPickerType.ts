@@ -1,4 +1,4 @@
-import HSVAInput from "../components/HSVAInput";
+import ColorPickerHSVAInput from "../components/ColorPickerHSVAInput";
 
 enum ColorPickerType {
   Hex,

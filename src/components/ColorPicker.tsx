@@ -1,38 +1,31 @@
 import React, {useState} from "react";
 import {InputField} from "@noxy/react-input-field";
-import {getHueHSX, fromHex2HSXRGB} from "../Utility";
+import {Range} from "@noxy/react-range";
+import {fromHex2HSVA, fromHSVA2Hex, sanitizeHex, getFullHex} from "../Utility";
 import HSVAInput from "./HSVAInput";
 import HexInput from "./HexInput";
 import HSLAInput from "./HSLAInput";
 import RGBAInput from "./RGBAInput";
 import ColorPickerType from "../enums/ColorPickerType";
-
-const Style = require("./ColorPicker.module.css");
+import ColorPickerWindow from "./ColorPickerWindow";
+import Style from "./ColorPicker.module.css";
 
 function ColorPicker(props: ColorPickerProps) {
-  const [cursor_point, setCursorPoint] = useState();
   const [type, setType] = useState<number>(0);
 
   const classes = [Style.Component, "color-picker"];
   if (props.className) classes.push(props.className);
 
-  const {hex, red, blue, green} = fromHex2HSXRGB(props.color);
-  const preview_color: React.CSSProperties = {background: hex};
-  const window_color: React.CSSProperties = {background: `hsla(${getHueHSX(red, green, blue)}, 100%, 50%, 100%)`};
+  const {hex, hue = 180, saturation = 100, value = 100, alpha = 100} = fromHex2HSVA(props.color);
+  const preview_color: React.CSSProperties = {background: getFullHex(sanitizeHex(hex))};
 
   return (
     <div className={classes.join(" ")}>
       <div className={"color-picker-control"}>
-        <div className={"color-picker-control-value"}>
-          <div className={"color-picker-control-cursor"}></div>
-        </div>
-        <div className={"color-picker-control-alpha"}>
-          <div className={"color-picker-control-cursor"}></div>
-        </div>
+        <Range vertical={true} value={hue} min={0} max={360} onChange={onHueChange}/>
+        <Range vertical={true} value={alpha} min={0} max={100} onChange={onAlphaChange}/>
       </div>
-      <div className={"color-picker-window"} style={window_color}>
-        <div className={"color-picker-window-cursor"}/>
-      </div>
+      <ColorPickerWindow hue={hue} x={saturation} y={100 - value} onChange={onWindowChange}/>
       <div className={"color-picker-preview"} style={preview_color}/>
       <div className={"color-picker-info"}>
         <InputField label={"Type"} max={3} caret={true} input={ColorPickerType[type]} onCommit={onTypeCommit}>
@@ -41,20 +34,12 @@ function ColorPicker(props: ColorPickerProps) {
           <span>{"HSV"}</span>
           <span>{"HSL"}</span>
         </InputField>
-        {renderInfo()}
+        {renderInput()}
       </div>
     </div>
   );
 
-  function onTypeCommit(input: string, index: number) {
-    if (index > -1) {
-      setType(index);
-      return {input, index};
-    }
-    return {input: ColorPickerType[type], index: type};
-  }
-
-  function renderInfo() {
+  function renderInput() {
     switch (type) {
       case 1:
         return (
@@ -75,8 +60,29 @@ function ColorPicker(props: ColorPickerProps) {
     }
   }
 
+  function onTypeCommit(input: string, index: number) {
+    if (index > -1) {
+      setType(index);
+      return {input, index};
+    }
+    return {input: ColorPickerType[type], index: type};
+  }
+
+  function onHueChange(hue: number) {
+    console.log(hue, saturation, value, fromHSVA2Hex(hue, saturation, value, alpha));
+    props.onChange?.(fromHSVA2Hex(hue, saturation, value, alpha));
+  }
+
+  function onAlphaChange(alpha: number) {
+    props.onChange?.(fromHSVA2Hex(hue, saturation, value, alpha));
+  }
+
+  function onWindowChange(x: number, y: number) {
+    console.log(x, y);
+    props.onChange?.(fromHSVA2Hex(hue, x, 100 - y, alpha));
+  }
+
   function onChange(hex?: string) {
-    console.log(hex);
     props.onChange?.(hex);
   }
 }

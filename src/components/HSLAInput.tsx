@@ -1,5 +1,5 @@
 import {InputField, InputFieldType} from "@noxy/react-input-field";
-import {asHex, fromHexToHSLA, fromHSL2Red, fromHSL2Green, fromHSL2Blue} from "../Utility";
+import {fromHex2HSLA, fromHSLA2Hex} from "../Utility";
 import {useState, useEffect} from "react";
 
 const filter = /\d{0,3}/;
@@ -13,11 +13,11 @@ function HSLAInput(props: HSLAInputProps) {
   const [saturation_input, setSaturationInput] = useState<string>("");
   const [lightness_input, setLightnessInput] = useState<string>("");
   const [alpha_input, setAlphaInput] = useState<string>("");
-  const {hue, saturation, lightness, alpha} = fromHexToHSLA(props.hex);
+  const {hue, saturation, lightness, alpha} = fromHex2HSLA(props.hex);
 
   useEffect(
     () => {
-      const {hue, saturation, lightness, alpha} = fromHexToHSLA(props.hex);
+      const {hue, saturation, lightness, alpha} = fromHex2HSLA(props.hex);
       setHueInput(String(hue ?? ""));
       setSaturationInput(String(saturation ?? ""));
       setLightnessInput(String(lightness ?? ""));
@@ -59,13 +59,8 @@ function HSLAInput(props: HSLAInputProps) {
     if (hue === undefined && saturation === undefined && lightness === undefined && !alpha) props.onChange();
   }
 
-  function updateColor(hue: number = 0, saturation: number = 100, lightness: number = 50, alpha: number = 100) {
-    saturation /= 100;
-    lightness /= 100;
-    const red = fromHSL2Red(hue, saturation, lightness);
-    const green = fromHSL2Green(hue, saturation, lightness);
-    const blue = fromHSL2Blue(hue, saturation, lightness);
-    props.onChange(`#${asHex(red)}${asHex(green)}${asHex(blue)}${asHex(alpha * 2.55)}`);
+  function updateColor(hue?: number, saturation?: number, lightness?: number, alpha?: number) {
+    props.onChange(fromHSLA2Hex(hue, saturation, lightness, alpha));
   }
 }
 

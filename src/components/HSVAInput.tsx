@@ -1,5 +1,5 @@
 import {InputField, InputFieldType} from "@noxy/react-input-field";
-import {asHex, fromHexToHSVA, fromHSV2Blue, fromHSV2Green, fromHSV2Red} from "../Utility";
+import {fromHSVA2Hex, fromHex2HSVA} from "../Utility";
 import {useState, useEffect} from "react";
 
 const filter = /\d{0,3}/;
@@ -13,11 +13,11 @@ function HSVAInput(props: HSVAInputProps) {
   const [saturation_input, setSaturationInput] = useState<string>("");
   const [value_input, setValueInput] = useState<string>("");
   const [alpha_input, setAlphaInput] = useState<string>("");
-  const {hue, saturation, value, alpha} = fromHexToHSVA(props.hex);
+  const {hue, saturation, value, alpha} = fromHex2HSVA(props.hex);
 
   useEffect(
     () => {
-      const {hue, saturation, value, alpha} = fromHexToHSVA(props.hex);
+      const {hue, saturation, value, alpha} = fromHex2HSVA(props.hex);
       setHueInput(String(hue ?? ""));
       setSaturationInput(String(saturation ?? ""));
       setValueInput(String(value ?? ""));
@@ -59,13 +59,8 @@ function HSVAInput(props: HSVAInputProps) {
     if (hue === undefined && saturation === undefined && value === undefined && !alpha) props.onChange();
   }
 
-  function updateColor(hue: number = 0, saturation: number = 100, value: number = 100, alpha: number = 100) {
-    saturation /= 100;
-    value /= 100;
-    const red = fromHSV2Red(hue, saturation, value);
-    const green = fromHSV2Green(hue, saturation, value);
-    const blue = fromHSV2Blue(hue, saturation, value);
-    props.onChange(`#${asHex(red)}${asHex(green)}${asHex(blue)}${asHex(alpha * 2.55)}`);
+  function updateColor(hue?: number, saturation?: number, value?: number, alpha?: number) {
+    props.onChange(fromHSVA2Hex(hue, saturation, value, alpha));
   }
 }
 

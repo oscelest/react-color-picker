@@ -9,7 +9,7 @@ export function sanitizeHex(hex: string = "") {
   return hex;
 }
 
-export function fromHex2HSXRGB(hex: string = "") {
+export function fromHex2HSXRGBA(hex: string = "") {
   hex = getFullHex(sanitizeHex(hex));
   return {
     hex,
@@ -24,16 +24,17 @@ export function asHex(value: number = 0, padding: string = "0", length: number =
   return Math.round(Math.max(0, value)).toString(16).padStart(length, padding);
 }
 
-export function fromHSV2Red(hue: number, saturation: number, value: number) {
-  return fromHSV2RGB(hue, saturation, value, 5);
+export function fromRGBA2Hex(red: number, green: number, blue: number, alpha: number) {
+  return `#${asHex(red)}${asHex(green)}${asHex(blue)}${asHex(alpha * 2.55)}`;
 }
 
-export function fromHSV2Green(hue: number, saturation: number, value: number) {
-  return fromHSV2RGB(hue, saturation, value, 3);
-}
-
-export function fromHSV2Blue(hue: number, saturation: number, value: number) {
-  return fromHSV2RGB(hue, saturation, value, 1);
+export function fromHSVA2Hex(hue: number = 0, saturation: number = 100, value: number = 100, alpha: number = 100) {
+  saturation /= 100;
+  value /= 100;
+  const red = fromHSV2RGB(hue, saturation, value, 5);
+  const green = fromHSV2RGB(hue, saturation, value, 3);
+  const blue = fromHSV2RGB(hue, saturation, value, 1);
+  return `#${asHex(red)}${asHex(green)}${asHex(blue)}${asHex(alpha * 2.55)}`;
 }
 
 function fromHSV2RGB(hue: number, saturation: number, value: number, n: number) {
@@ -41,16 +42,13 @@ function fromHSV2RGB(hue: number, saturation: number, value: number, n: number) 
   return Math.round((value - value * saturation * Math.max(0, Math.min(k, 4 - k, 1))) * 255);
 }
 
-export function fromHSL2Red(hue: number, saturation: number, lightness: number) {
-  return fromHSL2RGB(hue, saturation, lightness, 0);
-}
-
-export function fromHSL2Green(hue: number, saturation: number, lightness: number) {
-  return fromHSL2RGB(hue, saturation, lightness, 8);
-}
-
-export function fromHSL2Blue(hue: number, saturation: number, lightness: number) {
-  return fromHSL2RGB(hue, saturation, lightness, 4);
+export function fromHSLA2Hex(hue: number = 0, saturation: number = 100, lightness: number = 50, alpha: number = 100) {
+  saturation /= 100;
+  lightness /= 100;
+  const red = fromHSL2RGB(hue, saturation, lightness, 0);
+  const green = fromHSL2RGB(hue, saturation, lightness, 8);
+  const blue = fromHSL2RGB(hue, saturation, lightness, 4);
+  return `#${asHex(red)}${asHex(green)}${asHex(blue)}${asHex(alpha * 2.55)}`;
 }
 
 function fromHSL2RGB(hue: number, saturation: number, lightness: number, n: number) {
@@ -58,26 +56,28 @@ function fromHSL2RGB(hue: number, saturation: number, lightness: number, n: numb
   return Math.round((lightness - saturation * Math.min(lightness, 1 - lightness) * Math.max(-1, Math.min(k - 3, 9 - k, 1))) * 255);
 }
 
-export function fromHexToHSVA(input?: string) {
-  if (!input) return {};
-  const {red, green, blue, alpha} = fromHex2HSXRGB(input);
+export function fromHex2HSVA(hex?: string) {
+  if (!hex) return {};
+  const {red, green, blue, alpha} = fromHex2HSXRGBA(hex);
   const value = getValueHSX(red, blue, green);
   const chroma = getChromaHSX(red, blue, green, value);
   return {
-    hue: Math.round(getHueHSX(red, green, blue, value, chroma)),
-    saturation: Math.round(getSaturationHSV(value, chroma) * 100),
-    value: Math.round(value * 100),
-    alpha: Math.round(alpha)
+    hex,
+    hue: getHueHSX(red, green, blue, value, chroma),
+    saturation: getSaturationHSV(value, chroma) * 100,
+    value: value * 100,
+    alpha: alpha * 100
   };
 }
 
-export function fromHexToHSLA(input?: string) {
-  if (!input) return {};
-  const {red, green, blue, alpha} = fromHex2HSXRGB(input);
+export function fromHex2HSLA(hex?: string) {
+  if (!hex) return {};
+  const {red, green, blue, alpha} = fromHex2HSXRGBA(hex);
   const value = getValueHSX(red, blue, green);
   const chroma = getChromaHSX(red, blue, green, value);
   const lightness = getLightnessHSL(value, chroma);
   return {
+    hex,
     hue: Math.round(getHueHSX(red, green, blue, value, chroma)),
     saturation: Math.round(getSaturationHSL(value, lightness) * 100),
     lightness: Math.round(lightness * 100),
@@ -94,14 +94,14 @@ export function getChromaHSX(red: number, green: number, blue: number, value: nu
 }
 
 export function getHueHSX(red: number, green: number, blue: number, value: number = getValueHSX(red, green, blue), chroma: number = getChromaHSX(red, green, blue, value)) {
-  if (chroma === 0) return 0;
+  if (chroma === 0) return 360;
   switch (value) {
     case red:
-      return 60 * (green - blue) / chroma;
+      return (60 * (green - blue) / chroma) || 360;
     case green:
-      return 60 * (2 + (blue - red) / chroma);
+      return (60 * (2 + (blue - red) / chroma)) || 360;
     case blue:
-      return 60 * (4 + (red - green) / chroma);
+      return (60 * (4 + (red - green) / chroma)) || 360;
     default:
       throw new Error("Color does not exist.");
   }
