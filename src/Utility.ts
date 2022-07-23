@@ -28,20 +28,6 @@ export function fromRGBA2Hex(red: number, green: number, blue: number, alpha: nu
   return `#${asHex(red)}${asHex(green)}${asHex(blue)}${asHex(alpha * 2.55)}`;
 }
 
-export function fromHSVA2Hex(hue: number = 0, saturation: number = 100, value: number = 100, alpha: number = 100) {
-  saturation /= 100;
-  value /= 100;
-  const red = fromHSV2RGB(hue, saturation, value, 5);
-  const green = fromHSV2RGB(hue, saturation, value, 3);
-  const blue = fromHSV2RGB(hue, saturation, value, 1);
-  return `#${asHex(red)}${asHex(green)}${asHex(blue)}${asHex(alpha * 2.55)}`;
-}
-
-function fromHSV2RGB(hue: number, saturation: number, value: number, n: number) {
-  const k = (n + hue / 60) % 6;
-  return Math.round((value - value * saturation * Math.max(0, Math.min(k, 4 - k, 1))) * 255);
-}
-
 export function fromHSLA2Hex(hue: number = 0, saturation: number = 100, lightness: number = 50, alpha: number = 100) {
   saturation /= 100;
   lightness /= 100;
@@ -94,14 +80,14 @@ export function getChromaHSX(red: number, green: number, blue: number, value: nu
 }
 
 export function getHueHSX(red: number, green: number, blue: number, value: number = getValueHSX(red, green, blue), chroma: number = getChromaHSX(red, green, blue, value)) {
-  if (chroma === 0) return 360;
+  if (chroma === 0) return 0;
   switch (value) {
     case red:
-      return (60 * (green - blue) / chroma) || 360;
+      return (60 * (green - blue) / chroma);
     case green:
-      return (60 * (2 + (blue - red) / chroma)) || 360;
+      return (60 * (2 + (blue - red) / chroma));
     case blue:
-      return (60 * (4 + (red - green) / chroma)) || 360;
+      return (60 * (4 + (red - green) / chroma));
     default:
       throw new Error("Color does not exist.");
   }

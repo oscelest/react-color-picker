@@ -4,7 +4,7 @@ import {useState, useEffect} from "react";
 function IndexPage() {
   const [color, setColor] = useState<string>();
 
-  useEffect(() => setColor("#333fffff"), []);
+  useEffect(() => setColor("#FACADEFF"), []);
 
   return (
     <div style={{display: "flex"}}>

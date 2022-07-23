@@ -1,5 +1,3 @@
-import ColorPickerHSVAInput from "../components/ColorPickerHSVAInput";
-
 enum ColorPickerType {
   Hex,
   RGB,
@@ -7,4 +5,4 @@ enum ColorPickerType {
   HSL,
 }
 
-export default ColorPickerType
+export default ColorPickerType;

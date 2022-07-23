@@ -30,9 +30,9 @@ function ColorPickerWindow(props: HexInputProps) {
   }
 
   function onMouseUp(event: MouseEvent) {
-    updateColor(event);
     window.removeEventListener("mousemove", onMouseMove);
     window.removeEventListener("mouseup", onMouseUp);
+    updateColor(event);
   }
 
   function updateColor(event: MouseEvent) {
