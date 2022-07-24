@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {InputField} from "@noxy/react-input-field";
 import {Range} from "@noxy/react-range";
-import {sanitizeHex, getFullHex} from "../Utility";
 import HSVAInput from "./HSVAInput";
 import HexInput from "./HexInput";
 import HSLAInput from "./HSLAInput";
@@ -11,6 +10,8 @@ import ColorPickerWindow from "./ColorPickerWindow";
 import Style from "./ColorPicker.module.css";
 import HSVColor from "../modules/HSVColor";
 import HexColor from "../modules/HexColor";
+import RGBColor from "../modules/RGBColor";
+import HSLColor from "../modules/HSLColor";
 
 function ColorPicker(props: ColorPickerProps) {
   const [type, setType] = useState<number>(0);
@@ -18,17 +19,17 @@ function ColorPicker(props: ColorPickerProps) {
   const [saturation, setSaturation] = useState<number>(0);
   const [value, setValue] = useState<number>(0);
   const [alpha, setAlpha] = useState<number>(0);
-  const [previous_hex, setPreviousHex] = useState<string>();
+  const [previous_hex, setPreviousHex] = useState<string>("#facadeff");
 
   useEffect(
     () => {
       if (!props.color || previous_hex === props.color) return;
-      const {hue, saturation, value, alpha, hex} = HexColor.toHSV(props.color);
+      const {hue, saturation, value, alpha} = HexColor.toHSV(props.color);
       setHue(hue);
       setSaturation(saturation);
       setValue(value);
       setAlpha(alpha);
-      setPreviousHex(hex);
+      setPreviousHex(props.color);
     },
     [props.color]
   );
@@ -37,7 +38,7 @@ function ColorPicker(props: ColorPickerProps) {
   const classes = [Style.Component, "color-picker"];
   if (props.className) classes.push(props.className);
 
-  const preview_color: React.CSSProperties = {background: getFullHex(sanitizeHex(props.color))};
+  const preview_color: React.CSSProperties = {background: props.color};
 
   return (
     <div className={classes.join(" ")}>
@@ -61,21 +62,27 @@ function ColorPicker(props: ColorPickerProps) {
 
   function renderInput() {
     switch (type) {
-      case 1:
+      case 1: {
+        // RGBA values are (0-255, 0-255, 0-255, 0-100)
         return (
-          <RGBAInput hex={hex} onChange={onChange}/>
+          <RGBAInput {...HSVColor.toRGB(hue, saturation, value, alpha)} onChange={onRGBChange}/>
         );
+      }
       case 2:
+        // HSVA values are (0-360, 0-1, 0-1, 0-1)
         return (
-          <HSVAInput hex={hex} onChange={onChange}/>
+          <HSVAInput {...{hue, saturation, value, alpha}} onChange={onHSVAChange}/>
         );
-      case 3:
+      case 3: {
+        // HSLA values are (0-360, 0-1, 0-1, 0-1)
         return (
-          <HSLAInput hex={hex} onChange={onChange}/>
+          <HSLAInput {...HSVColor.toHSL(hue, saturation, value, alpha)} onChange={onHSLAChange}/>
         );
+      }
       default:
+        // Hex value is (#0f0f0f0f)
         return (
-          <HexInput hex={hex} onChange={onChange}/>
+          <HexInput hex={hex} onChange={onHexChange}/>
         );
     }
   }
@@ -89,39 +96,49 @@ function ColorPicker(props: ColorPickerProps) {
   }
 
   function onHueChange(hue: number) {
-    setHue(hue);
-    updateColor(HSVColor.toHex(hue, saturation, value, alpha));
+    updateColor(hue, saturation, value, alpha);
   }
 
   function onAlphaChange(alpha: number) {
-    alpha /= 100;
-    setAlpha(alpha);
-    updateColor(HSVColor.toHex(hue, saturation, value, alpha));
+    updateColor(hue, saturation, value, alpha / 100);
   }
 
   function onWindowChange(x: number, y: number) {
-    const saturation = x / 100;
-    const value = 1 - y / 100;
-    setSaturation(saturation);
-    setValue(value);
-    updateColor(HSVColor.toHex(hue, saturation, value, alpha));
+    updateColor(hue, x / 100, 1 - y / 100, alpha);
   }
 
-  function onChange(hex: string) {
-    const {hue, saturation, value, alpha} = HexColor.toHSV(hex);
+  // HSVA values are (0-360, 0-1, 0-1, 0-1)
+  function onHSVAChange(hue: number, saturation: number, value: number, alpha: number) {
+    updateColor(hue, saturation, value, alpha);
+  }
+
+  // HSLA values are (0-360, 0-1, 0-1, 0-1)
+  function onHSLAChange(hue: number, saturation: number, lightness: number, alpha: number) {
+    const hsv = HSLColor.toHSV(hue, saturation, lightness, alpha);
+    updateColor(hsv.hue, hsv.saturation, hsv.value, hsv.alpha);
+  }
+
+  // RGBA values are (0-255, 0-255, 0-255, 0-100)
+  function onRGBChange(red: number, green: number, blue: number, alpha: number) {
+    const hsv = RGBColor.toHSV(red, green, blue, alpha);
+    updateColor(hsv.hue, hsv.saturation, hsv.value, hsv.alpha);
+  }
+
+  // Hex value is (#0f0f0f0f)
+  function onHexChange(hex: string) {
+    const hsv = HexColor.toHSV(hex);
+    updateColor(hsv.hue, hsv.saturation, hsv.value, hsv.alpha);
+  }
+
+  function updateColor(hue: number, saturation: number, value: number, alpha: number) {
+    const hex = HSVColor.toHex(hue, saturation, value, alpha);
     setHue(hue);
     setSaturation(saturation);
     setValue(value);
     setAlpha(alpha);
-    updateColor(hex);
-  }
-
-  function updateColor(hex: string) {
     setPreviousHex(hex);
     props.onChange?.(hex);
   }
-
-
 }
 
 export interface ColorPickerProps {

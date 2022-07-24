@@ -1,37 +1,61 @@
 module RGBColor {
 
   export function toHex(red: number, green: number, blue: number, alpha: number) {
-    return `#${asHex(red)}${asHex(green)}${asHex(blue)}${asHex(alpha)}`;
+    return `#${asHexValue(red)}${asHexValue(green)}${asHexValue(blue)}${asHexValue(alpha)}`;
   }
 
-  function asHex(value: number, padding: string = "0", length: number = 2) {
+  function asHexValue(value: number, padding: string = "0", length: number = 2) {
     return value.toString(16).padStart(length, padding);
   }
 
-  export function toRGB(hue: number, saturation: number, value: number, alpha: number) {
-    if (hue < 0 || hue > 360) throw new Error("Hue must be a number between 0 and 360");
-    if (saturation < 0 || saturation > 1) throw new Error("Saturation must be a number between 0 and 1");
-    if (value < 0 || value > 1) throw new Error("Value must be a number between 0 and 1");
-    if (alpha < 0 || alpha > 1) throw new Error("Alpha must be a number between 0 and 1");
+  export function toHSV(red: number, green: number, blue: number, alpha: number) {
+    red /= 255;
+    green /= 255;
+    blue /= 255;
+    alpha /= 100;
 
+    const value = getValueHSX(red, blue, green);
+    const chroma = getChromaHSX(red, blue, green, value);
     return {
-      red: asRGBValue(toRGBDecimal(hue, saturation, value, 5)),
-      green: asRGBValue(toRGBDecimal(hue, saturation, value, 3)),
-      blue: asRGBValue(toRGBDecimal(hue, saturation, value, 1)),
-      alpha: asRGBValue(alpha)
+      hue: getHueHSX(red, green, blue, value, chroma),
+      saturation: getSaturationHSV(value, chroma),
+      value,
+      alpha
+    };
+  }
+
+  export function getValueHSX(red: number, green: number, blue: number) {
+    return Math.max(red, green, blue);
+  }
+
+  export function getChromaHSX(red: number, green: number, blue: number, value: number) {
+    return value - Math.min(red, green, blue);
+  }
+
+  export function getHueHSX(red: number, green: number, blue: number, value: number = getValueHSX(red, green, blue), chroma: number = getChromaHSX(red, green, blue, value)) {
+    if (chroma === 0) return 0;
+
+    let hue: number;
+    if (value === red) {
+      hue = (green - blue) / chroma;
     }
+    else if (value === green) {
+      hue = 2 + (blue - red) / chroma;
+    }
+    else if (value === blue) {
+      hue = 4 + (red - green) / chroma;
+    }
+    else {
+      hue = 0;
+    }
+
+    return 60 * (hue < 0 ? hue + 6 : hue);
   }
 
-  function toRGBDecimal(hue: number, saturation: number, value: number, mod: 5 | 3 | 1) {
-    const k = (mod + hue / 60) % 6;
-    return value - value * saturation * Math.max(Math.min(k, 4 - k, 1), 0);
+  export function getSaturationHSV(value: number, chroma: number) {
+    if (value === 0) return 0;
+    return chroma / value;
   }
-
-  function asRGBValue(rgb: number) {
-    return Math.min(Math.max(Math.round(rgb * 255), 0), 255);
-  }
-
-
 }
 
 export default RGBColor;

@@ -1,72 +1,58 @@
 import {InputField, InputFieldType} from "@noxy/react-input-field";
-import {fromHex2HSLA, fromHSLA2Hex} from "../Utility";
 import {useState, useEffect} from "react";
-
-const filter = /\d{0,3}/;
-
-function parseInput(input: string, max: number) {
-  return Math.min(max, Math.max(0, +input));
-}
+import Utility from "../modules/Utility";
 
 function HSLAInput(props: HSLAInputProps) {
-  const [hue_input, setHueInput] = useState<string>("");
-  const [saturation_input, setSaturationInput] = useState<string>("");
-  const [lightness_input, setLightnessInput] = useState<string>("");
-  const [alpha_input, setAlphaInput] = useState<string>("");
-  const {hue, saturation, lightness, alpha} = fromHex2HSLA(props.hex);
+  const [hue, setHue] = useState<string>(props.hue.toFixed(0));
+  const [saturation, setSaturation] = useState<string>(props.saturation.toFixed(0));
+  const [lightness, setLightness] = useState<string>(props.lightness.toFixed(0));
+  const [alpha, setAlpha] = useState<string>(props.alpha.toFixed(0));
 
-  useEffect(
-    () => {
-      const {hue, saturation, lightness, alpha} = fromHex2HSLA(props.hex);
-      setHueInput(String(hue ?? ""));
-      setSaturationInput(String(saturation ?? ""));
-      setLightnessInput(String(lightness ?? ""));
-      setAlphaInput(String(alpha ?? ""));
-    },
-    [props.hex]
-  );
+  useEffect(() => setHue(Utility.resolveValue(props.hue, hue)), [props.hue]);
+  useEffect(() => setSaturation(Utility.resolveValue(props.saturation * 100, saturation)), [props.saturation]);
+  useEffect(() => setLightness(Utility.resolveValue(props.lightness * 100, lightness)), [props.lightness]);
+  useEffect(() => setAlpha(Utility.resolveValue(props.alpha * 100, alpha)), [props.alpha]);
 
   return (
     <>
-      <InputField className={"hsla-input hue"} type={InputFieldType.TEL} label={"Hue"} input={hue_input} filter={filter} onInputChange={onHueChange}/>
-      <InputField className={"hsla-input saturation"} type={InputFieldType.TEL} label={"Saturation"} input={saturation_input} filter={filter} onInputChange={onSaturationChange}/>
-      <InputField className={"hsla-input lightness"} type={InputFieldType.TEL} label={"Lightness"} input={lightness_input} filter={filter} onInputChange={onLightnessChange}/>
-      <InputField className={"hsla-input alpha"} type={InputFieldType.TEL} label={"Alpha"} input={alpha_input} filter={filter} onInputChange={onAlphaChange}/>
+      <InputField className={"HSLA-input hue"} type={InputFieldType.TEL} label={"Hue"} input={hue} filter={Utility.number_filter} onInputChange={onHueChange}/>
+      <InputField className={"HSLA-input saturation"} type={InputFieldType.TEL} label={"Saturation"} input={saturation} filter={Utility.number_filter} onInputChange={onSaturationChange}/>
+      <InputField className={"HSLA-input value"} type={InputFieldType.TEL} label={"Lightness"} input={lightness} filter={Utility.number_filter} onInputChange={onLightnessChange}/>
+      <InputField className={"HSLA-input alpha"} type={InputFieldType.TEL} label={"Alpha"} input={alpha} filter={Utility.number_filter} onInputChange={onAlphaChange}/>
     </>
   );
 
   function onHueChange(hue: string) {
-    setHueInput(hue);
-    if (hue) return updateColor(parseInput(hue, 360), saturation, lightness, alpha);
-    if (!hue && saturation === undefined && lightness === undefined && alpha === undefined) props.onChange();
+    setHue(hue);
+    updateColor(hue, saturation, lightness, alpha);
   }
 
   function onSaturationChange(saturation: string) {
-    setSaturationInput(saturation);
-    if (saturation) return updateColor(hue, parseInput(saturation, 100), lightness, alpha);
-    if (hue === undefined && !saturation && lightness === undefined && alpha === undefined) props.onChange();
+    setSaturation(saturation);
+    updateColor(hue, saturation, lightness, alpha);
   }
 
   function onLightnessChange(lightness: string) {
-    setLightnessInput(lightness);
-    if (lightness) return updateColor(hue, saturation, parseInput(lightness, 100), alpha);
-    if (!hue && saturation === undefined && !lightness && alpha === undefined) props.onChange();
+    setLightness(lightness);
+    updateColor(hue, saturation, lightness, alpha);
   }
 
   function onAlphaChange(alpha: string) {
-    setAlphaInput(alpha);
-    if (alpha) return updateColor(hue, saturation, lightness, parseInput(alpha, 100));
-    if (hue === undefined && saturation === undefined && lightness === undefined && !alpha) props.onChange();
+    setAlpha(alpha);
+    updateColor(hue, saturation, lightness, alpha);
   }
 
-  function updateColor(hue?: number, saturation?: number, lightness?: number, alpha?: number) {
-    props.onChange(fromHSLA2Hex(hue, saturation, lightness, alpha));
+  function updateColor(hue: string, saturation: string, lightness: string, alpha: string) {
+    props.onChange(Utility.parseHue(hue), Utility.parseSVLA(saturation), Utility.parseSVLA(lightness), Utility.parseSVLA(alpha));
   }
 }
 
 export interface HSLAInputProps {
-  hex?: string;
-  onChange(hex?: string): void;
+  hue: number;
+  saturation: number;
+  lightness: number;
+  alpha: number;
+  onChange(hue: number, saturation: number, lightness: number, alpha: number): void;
 }
 
 export default HSLAInput;
