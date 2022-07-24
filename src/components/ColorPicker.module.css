@@ -4,6 +4,10 @@
   --input-field-label-active-font-size: 11px;
 }
 
+:root .Component:global(.color-picker .range) {
+  --range-dimension: 10px
+}
+
 .Component * {
   display:    flex;
   position:   relative;
@@ -21,72 +25,51 @@
   padding:               5px;
 }
 
+/* ----- Control ----- */
+
 .Component:global(.color-picker .color-picker-control) {
   flex:            0 0 auto;
-  grid-column-gap: 8px;
   justify-content: center;
+  grid-column-gap: 12px;
 }
 
+.Component:global(.color-picker .color-picker-range-alpha .range-bar::after), .Component:global(.color-picker .color-picker-range-alpha .range-bar::before) {
+  content:  " ";
+  position: absolute;
+  top:      0;
+  left:     0;
+  right:    0;
+  bottom:   0;
+}
+
+.Component:global(.color-picker .color-picker-range-alpha .range-bar::after) {
+  background: linear-gradient(to top, rgba(81, 41, 212, 0) 0%, rgb(81, 41, 212) 100%);
+}
+
+.Component:global(.color-picker .color-picker-range-alpha .range-bar::before) {
+  background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) 50% / 10px 10px;
+}
+
+.Component:global(.color-picker .color-picker-range-hue) {
+  background-image: linear-gradient(
+                        to top,
+                        rgb(255, 0, 0) 0%,
+                        rgb(255, 255, 0) 17%,
+                        rgb(0, 255, 0) 33%,
+                        rgb(0, 255, 255) 50%,
+                        rgb(0, 0, 255) 67%,
+                        rgb(255, 0, 255) 83%,
+                        rgb(255, 0, 0) 100%);
+}
+
+/* ----- Window ----- */
 
 .Component:global(.color-picker .color-picker-window) {
   flex:            0 0 auto;
   grid-column-gap: 8px;
   justify-content: center;
-}
-
-.Component:global(.color-picker .color-picker-window:before) {
-  background: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0));
-}
-
-.Component:global(.color-picker .color-picker-window:after) {
-  background: linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0));
-}
-
-.Component:global(.color-picker .color-picker-window-cursor) {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 1px solid white;
-  box-shadow: 0 0 0 1px black inset;
-  z-index: 1;
-  transform: translate(-50%, -50%);
-}
-
-
-
-.Component:global(.color-picker .color-picker-control-value) {
-  width:  8px;
-  height: 100%;
-  border: 1px solid black;
-}
-
-.Component:global(.color-picker .color-picker-control-alpha) {
-  width:  8px;
-  height: 100%;
-  border: 1px solid black;
-}
-
-.Component:global(.color-picker .color-picker-control-cursor) {
-  position:         absolute;
-  left:             -4px;
-  right:            -4px;
-  border:           1px solid black;
-  background-color: white;
-  height:           6px;
-  transform:        translateY(-50%);
-}
-
-.Component:global(.color-picker .color-picker-preview) {
-  width:  40px;
-  height: 40px;
-  border: 1px solid black;
-}
-
-.Component:global(.color-picker .color-picker-window) {
-  flex:   1 1 auto;
-  height: 200px;
-  border: 1px solid black;
+  height:          200px;
+  border:          1px solid black;
 }
 
 .Component:global(.color-picker .color-picker-window:before), .Component:global(.color-picker .color-picker-window:after) {
@@ -98,59 +81,73 @@
   bottom:   0;
 }
 
-.Component:global(.color-picker .color-picker-range-hue) {
-background: rgba(0, 0, 0, 0)
-            linear-gradient(
-                to right,
-                rgb(255, 0, 0) 0%,
-                rgb(255, 255, 0) 17%,
-                rgb(0, 255, 0) 33%,
-                rgb(0, 255, 255) 50%,
-                rgb(0, 0, 255) 67%,
-                rgb(255, 0, 255) 83%,
-                rgb(255, 0, 0) 100%)
-            repeat
-            scroll
-            0
-            0;
+.Component:global(.color-picker .color-picker-window:before) {
+  background: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0));
 }
 
-
-
+.Component:global(.color-picker .color-picker-window:after) {
+  background: linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0));
+}
 
 .Component:global(.color-picker .color-picker-window-cursor) {
+  position:      absolute;
+  width:         10px;
+  height:        10px;
+  border-radius: 50%;
+  border:        1px solid white;
+  box-shadow:    0 0 0 1px black inset;
+  z-index:       1;
+  transform:     translate(-50%, -50%);
 }
 
-.Component:global(.color-picker .color-picker-info .input-field-title) {
+/* ----- Preview ----- */
+
+.Component:global(.color-picker .color-picker-preview) {
+  width:      40px;
+  height:     40px;
+  border:     1px solid black;
+  background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) 50% / 10px 10px;
 }
 
-.Component:global(.color-picker .color-picker-info .input-field-title.active) {
+.Component:global(.color-picker .color-picker-preview::before) {
+  content:    " ";
+  position:   absolute;
+  top:        0;
+  left:       0;
+  right:      0;
+  bottom:     0;
+  background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) 50% / 10px 10px;
+  z-index:    -1;
 }
 
-.Component:global(.color-picker .color-picker-info .input-field-value) {
+/* ----- Input ----- */
+
+.Component:global(.color-picker .color-picker-info) {
+  grid-column-gap: 5px;
 }
 
-.Component:global(.color-picker .color-picker-info-hex) {
-  width: 75px;
-}
-
-.Component:global(.color-picker .color-picker-info-hex input) {
+.Component:global(.color-picker .color-picker-input) {
   font-family: monospace;
 }
 
+.Component:global(.color-picker .color-picker-type) {
+  width: 60px;
+}
 
-.Component:global(.color-picker .color-picker-info .color-picker-info-red) {
+.Component:global(.color-picker .color-picker-type .input-field-dropdown-option) {
+  font-size: var(--input-field-value-font-size);
+  line-height: var(--input-field-value-font-size);
+  padding: 4px;
+}
+
+.Component:global(.color-picker .color-picker-input.hsva-hue),
+.Component:global(.color-picker .color-picker-input.hsva-saturation),
+.Component:global(.color-picker .color-picker-input.hsva-value),
+.Component:global(.color-picker .color-picker-input.hsva-alpha){
   width: 45px;
 }
 
-.Component:global(.color-picker .color-picker-info .color-picker-info-blue) {
-  width: 45px;
-}
 
-.Component:global(.color-picker .color-picker-info .color-picker-info-green) {
-  width: 45px;
-}
 
-.Component:global(.color-picker .color-picker-info .color-picker-info-alpha) {
-  width: 45px;
-}
+
+

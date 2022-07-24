@@ -1,4 +1,4 @@
-import ColorPicker from "../src/components/ColorPicker";
+import {ColorPicker} from "../src";
 import {useState, useEffect} from "react";
 
 function IndexPage() {

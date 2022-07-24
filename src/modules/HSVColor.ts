@@ -3,15 +3,15 @@ import RGBColor from "./RGBColor";
 module HSVColor {
 
   function validateHSV(h: number, s: number, v: number, a: number) {
-    if (h < 0 || h > 360) throw new Error("Hue must be a number between 0 and 360");
-    if (s < 0 || s > 1) throw new Error("Saturation must be a number between 0 and 1");
-    if (v < 0 || v > 1) throw new Error("Value must be a number between 0 and 1");
-    if (a < 0 || a > 1) throw new Error("Alpha must be a number between 0 and 1");
+    if (h < 0 || h > 360) throw new Error(`Hue (${h}) must be a number between 0 and 360`);
+    if (s < 0 || s > 1) throw new Error(`Saturation (${s}) must be a number between 0 and 1`);
+    if (v < 0 || v > 1) throw new Error(`Value (${v}) must be a number between 0 and 1`, );
+    if (a < 0 || a > 1) throw new Error(`Alpha (${a}) must be a number between 0 and 1`);
   }
 
   export function toHex(h: number, s: number, v: number, a: number) {
     const {red, green, blue, alpha} = toRGB(h, s, v, a);
-    return RGBColor.toHex(red, green, blue, alpha);
+    return RGBColor.toHex(red, green, blue, alpha * 2.55);
   }
 
   export function toRGB(h: number, s: number, v: number, a: number) {

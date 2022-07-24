@@ -5,7 +5,7 @@ module Utility {
 
   export function getFullHex(hex: string = "") {
     const offset = hex[0] === "#" ? 1 : 0;
-    return hex.padEnd(6 + offset, "0").padEnd(8 + offset, "f").padStart(9, "#");
+    return hex.padEnd(6 + offset, "0").padEnd(8 + offset, "f").padStart(9, "#").toLowerCase();
   }
 
   export function parseRGB(rgb: string) {
@@ -29,7 +29,6 @@ module Utility {
     const prev = (parseInt(current) || 0).toFixed(0);
     return next === prev ? current : next;
   }
-
 }
 
 export default Utility;

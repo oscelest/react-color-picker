@@ -15,34 +15,42 @@ function HSVAInput(props: HSVAInputProps) {
 
   return (
     <>
-      <InputField className={"hsva-input hue"} type={InputFieldType.TEL} label={"Hue"} input={hue} filter={Utility.number_filter} onInputChange={onHueChange}/>
-      <InputField className={"hsva-input saturation"} type={InputFieldType.TEL} label={"Saturation"} input={saturation} filter={Utility.number_filter} onInputChange={onSaturationChange}/>
-      <InputField className={"hsva-input value"} type={InputFieldType.TEL} label={"Value"} input={value} filter={Utility.number_filter} onInputChange={onValueChange}/>
-      <InputField className={"hsva-input alpha"} type={InputFieldType.TEL} label={"Alpha"} input={alpha} filter={Utility.number_filter} onInputChange={onAlphaChange}/>
+      <InputField className={"color-picker-input hsva-hue"} type={InputFieldType.TEL} label={"H"} input={hue} filter={Utility.number_filter}
+                  onInputChange={onHueChange} onCommit={onCommit}/>
+      <InputField className={"color-picker-input hsva-saturation"} type={InputFieldType.TEL} label={"S"} input={saturation} filter={Utility.number_filter}
+                  onInputChange={onSaturationChange} onCommit={onCommit}/>
+      <InputField className={"color-picker-input hsva-value"} type={InputFieldType.TEL} label={"V"} input={value} filter={Utility.number_filter}
+                  onInputChange={onValueChange} onCommit={onCommit}/>
+      <InputField className={"color-picker-input hsva-alpha"} type={InputFieldType.TEL} label={"A"} input={alpha} filter={Utility.number_filter}
+                  onInputChange={onAlphaChange} onCommit={onCommit}/>
     </>
   );
 
   function onHueChange(hue: string) {
-    setHue(hue);
     updateColor(hue, saturation, value, alpha);
   }
 
   function onSaturationChange(saturation: string) {
-    setSaturation(saturation);
     updateColor(hue, saturation, value, alpha);
   }
 
   function onValueChange(value: string) {
-    setValue(value);
     updateColor(hue, saturation, value, alpha);
   }
 
   function onAlphaChange(alpha: string) {
-    setAlpha(alpha);
     updateColor(hue, saturation, value, alpha);
   }
 
+  function onCommit() {
+    updateColor((props.hue).toFixed(0), (props.saturation * 100).toFixed(0), (props.value * 100).toFixed(0), (props.alpha * 100).toFixed(0));
+  }
+
   function updateColor(hue: string, saturation: string, value: string, alpha: string) {
+    setHue(hue);
+    setSaturation(saturation);
+    setValue(value);
+    setAlpha(alpha);
     props.onChange(Utility.parseHue(hue), Utility.parseSVLA(saturation), Utility.parseSVLA(value), Utility.parseSVLA(alpha));
   }
 }

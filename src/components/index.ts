@@ -1,1 +1,1 @@
-export { default as Collapsible, type ColorPickerProps } from "./ColorPicker";
+export { default as ColorPicker, type ColorPickerProps } from "./ColorPicker";

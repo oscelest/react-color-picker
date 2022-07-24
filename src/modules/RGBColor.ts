@@ -5,7 +5,7 @@ module RGBColor {
   }
 
   function asHexValue(value: number, padding: string = "0", length: number = 2) {
-    return value.toString(16).padStart(length, padding);
+    return Math.round(value).toString(16).padStart(length, padding);
   }
 
   export function toHSV(red: number, green: number, blue: number, alpha: number) {

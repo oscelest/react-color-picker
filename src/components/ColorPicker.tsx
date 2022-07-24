@@ -43,13 +43,13 @@ function ColorPicker(props: ColorPickerProps) {
   return (
     <div className={classes.join(" ")}>
       <div className={"color-picker-control"}>
-        <Range vertical={true} value={hue} min={0} max={360} onChange={onHueChange}/>
-        <Range vertical={true} value={alpha * 100} min={0} max={100} onChange={onAlphaChange}/>
+        <Range className={"color-picker-range-hue"} vertical={true} value={hue} min={0} max={360} onChange={onHueChange}/>
+        <Range className={"color-picker-range-alpha"} vertical={true} value={alpha * 100} min={0} max={100} onChange={onAlphaChange}/>
       </div>
       <ColorPickerWindow hue={hue} x={saturation * 100} y={100 - value * 100} onChange={onWindowChange}/>
       <div className={"color-picker-preview"} style={preview_color}/>
       <div className={"color-picker-info"}>
-        <InputField label={"Type"} max={3} caret={true} input={ColorPickerType[type]} onCommit={onTypeCommit}>
+        <InputField className={"color-picker-input color-picker-type"} label={"Type"} max={3} caret={true} input={ColorPickerType[type]} onCommit={onTypeCommit}>
           <span>{"Hex"}</span>
           <span>{"RGB"}</span>
           <span>{"HSV"}</span>
@@ -114,6 +114,7 @@ function ColorPicker(props: ColorPickerProps) {
 
   // HSLA values are (0-360, 0-1, 0-1, 0-1)
   function onHSLAChange(hue: number, saturation: number, lightness: number, alpha: number) {
+    console.log(hue, saturation, lightness, alpha)
     const hsv = HSLColor.toHSV(hue, saturation, lightness, alpha);
     updateColor(hsv.hue, hsv.saturation, hsv.value, hsv.alpha);
   }

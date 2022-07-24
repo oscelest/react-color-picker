@@ -33,7 +33,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
   update-version:
-    needs: [get-version, publish-npm]
+    needs: [ get-version, publish-npm ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -51,8 +51,8 @@ jobs:
       - name: Commit changes to main branch
         run: git commit -m "Updating version to ${{ needs.get-version.outputs.version }}"
 
-      - name: fetch from master
-        run: git fetch origin main
+      - name: Pull from main
+        run: git pull origin main
 
-      - name: push code to master
+      - name: Push code to master
         run: git push origin HEAD:main

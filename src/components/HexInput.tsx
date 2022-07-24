@@ -4,11 +4,11 @@ import {useState, useEffect} from "react";
 
 function HexInput(props: HexInputProps) {
   const [hex, setHex] = useState<string>(props.hex.toLowerCase());
-  useEffect(() => setHex(Utility.getFullHex(hex) === props.hex ? hex : props.hex), [props.hex]);
+  useEffect(() => setHex(Utility.getFullHex(hex) === Utility.getFullHex(props.hex) ? hex : props.hex.toLowerCase()), [props.hex]);
 
   return (
     <>
-      <InputField className={"hex-input hex"} type={InputFieldType.TEXT} label={"Hex"} input={hex} filter={Utility.hex_filter} onInputChange={onHexChange} onCommit={onHexCommit}/>
+      <InputField className={"color-picker-input hex"} type={InputFieldType.TEXT} label={"Hex"} input={hex} filter={Utility.hex_filter} onInputChange={onHexChange} onCommit={onHexCommit}/>
     </>
   );
 
@@ -27,7 +27,7 @@ function HexInput(props: HexInputProps) {
 
 export interface HexInputProps {
   hex: string;
-  onChange(hex?: string): void;
+  onChange(hex: string): void;
 }
 
 export default HexInput;
