@@ -114,7 +114,7 @@ function ColorPicker(props: ColorPickerProps) {
 
   // HSLA values are (0-360, 0-1, 0-1, 0-1)
   function onHSLAChange(hue: number, saturation: number, lightness: number, alpha: number) {
-    console.log(hue, saturation, lightness, alpha)
+    console.log(hue, saturation, lightness, alpha);
     const hsv = HSLColor.toHSV(hue, saturation, lightness, alpha);
     updateColor(hsv.hue, hsv.saturation, hsv.value, hsv.alpha);
   }

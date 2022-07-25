@@ -10,19 +10,19 @@
 
 .Component * {
   display:    flex;
-  position:   relative;
   box-sizing: border-box;
+  position:   relative;
 }
 
 .Component:global(.color-picker) {
   display:               grid;
-  grid-template-columns: min-content auto;
-  grid-template-rows:    auto min-content;
-  grid-column-gap:       8px;
   grid-row-gap:          8px;
+  grid-column-gap:       8px;
+  grid-template-rows:    auto min-content;
+  grid-template-columns: min-content auto;
+  padding:               5px;
   border:                1px solid black;
   border-radius:         5px;
-  padding:               5px;
 }
 
 /* ----- Control ----- */
@@ -66,10 +66,10 @@
 
 .Component:global(.color-picker .color-picker-window) {
   flex:            0 0 auto;
-  grid-column-gap: 8px;
   justify-content: center;
-  border:          1px solid black;
+  grid-column-gap: 8px;
   padding-bottom:  calc(100% - 2px);
+  border:          1px solid black;
 }
 
 .Component:global(.color-picker .color-picker-window:before), .Component:global(.color-picker .color-picker-window:after) {
@@ -90,14 +90,14 @@
 }
 
 .Component:global(.color-picker .color-picker-window-cursor) {
-  position:      absolute;
   width:         10px;
   height:        10px;
-  border-radius: 50%;
-  border:        1px solid white;
-  box-shadow:    0 0 0 1px black inset;
+  position:      absolute;
   z-index:       1;
   transform:     translate(-50%, -50%);
+  border:        1px solid white;
+  border-radius: 50%;
+  box-shadow:    0 0 0 1px black inset;
 }
 
 /* ----- Preview ----- */
@@ -105,8 +105,8 @@
 .Component:global(.color-picker .color-picker-preview) {
   width:      40px;
   height:     40px;
-  border:     1px solid black;
   background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) 50% / 10px 10px;
+  border:     1px solid black;
 }
 
 .Component:global(.color-picker .color-picker-preview::before) {
@@ -116,8 +116,8 @@
   left:       0;
   right:      0;
   bottom:     0;
-  background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) 50% / 10px 10px;
   z-index:    -1;
+  background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) 50% / 10px 10px;
 }
 
 /* ----- Input ----- */
@@ -135,9 +135,9 @@
 }
 
 .Component:global(.color-picker .color-picker-type .input-field-dropdown-option) {
+  padding:     4px;
   font-size:   var(--input-field-value-font-size);
   line-height: var(--input-field-value-font-size);
-  padding:     4px;
 }
 
 .Component:global(.color-picker .color-picker-input.hsva-hue),

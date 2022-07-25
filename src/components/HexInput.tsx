@@ -1,6 +1,6 @@
 import {InputField, InputFieldType} from "@noxy/react-input-field";
 import Utility from "../modules/Utility";
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 
 function HexInput(props: HexInputProps) {
   const [hex, setHex] = useState<string>(props.hex.toLowerCase());

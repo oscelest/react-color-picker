@@ -1,5 +1,5 @@
 import {InputField, InputFieldType} from "@noxy/react-input-field";
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import Utility from "../modules/Utility";
 
 function RGBAInput(props: RGBAInputProps) {

@@ -17,7 +17,7 @@ function ColorPickerWindow(props: HexInputProps) {
 
     return (
       <div className={"color-picker-window-cursor"} style={style}/>
-    )
+    );
   }
 
   function onMouseDown() {
