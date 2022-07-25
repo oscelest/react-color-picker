@@ -15,13 +15,13 @@ function RGBAInput(props: RGBAInputProps) {
 
   return (
     <>
-      <InputField className={"color-picker-input rgba-red"} type={InputFieldType.TEL} label={"Red"} input={red} filter={Utility.number_filter}
+      <InputField className={"color-picker-input rgba-red"} type={InputFieldType.TEL} label={"R"} input={red} filter={Utility.number_filter}
                   onInputChange={onRedChange} onCommit={onCommit}/>
-      <InputField className={"color-picker-input rgba-green"} type={InputFieldType.TEL} label={"Green"} input={green} filter={Utility.number_filter}
+      <InputField className={"color-picker-input rgba-green"} type={InputFieldType.TEL} label={"G"} input={green} filter={Utility.number_filter}
                   onInputChange={onBlueChange} onCommit={onCommit}/>
-      <InputField className={"color-picker-input rgba-blue"} type={InputFieldType.TEL} label={"Blue"} input={blue} filter={Utility.number_filter}
+      <InputField className={"color-picker-input rgba-blue"} type={InputFieldType.TEL} label={"B"} input={blue} filter={Utility.number_filter}
                   onInputChange={onGreenChange} onCommit={onCommit}/>
-      <InputField className={"color-picker-input rgba-alpha"} type={InputFieldType.TEL} label={"Alpha"} input={alpha} filter={Utility.number_filter}
+      <InputField className={"color-picker-input rgba-alpha"} type={InputFieldType.TEL} label={"A"} input={alpha} filter={Utility.number_filter}
                   onInputChange={onAlphaChange} onCommit={onCommit}/>
     </>
   );
