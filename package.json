@@ -26,10 +26,12 @@
     "build":    "rollup -c",
     "test:app": "next dev"
   },
-  "devDependencies":  {
+  "dependencies": {
     "@noxy/geometry":                   "^0.2.1",
-    "@noxy/react-input-field":          "^0.4.5",
-    "@noxy/react-range":                "^0.1.3",
+    "@noxy/react-input-field":          "^0.5.1",
+    "@noxy/react-range":                "^0.2.0"
+  },
+  "devDependencies":  {
     "@rollup/plugin-commonjs":          "^22.0.2",
     "@rollup/plugin-node-resolve":      "^13.3.0",
     "@rollup/plugin-typescript":        "^8.3.4",
