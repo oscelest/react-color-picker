@@ -14,6 +14,9 @@ import RGBColor from "../modules/RGBColor";
 import HSLColor from "../modules/HSLColor";
 
 function ColorPicker(props: ColorPickerProps) {
+  const {style = {}, color, children, className, ...component_method_props} = props;
+  const {onChange, ...component_props} = component_method_props;
+
   const [type, setType] = useState<number>(0);
   const [hue, setHue] = useState<number>(0);
   const [saturation, setSaturation] = useState<number>(0);
@@ -23,25 +26,28 @@ function ColorPicker(props: ColorPickerProps) {
 
   useEffect(
     () => {
-      if (!props.color || previous_hex === props.color) return;
-      const {hue, saturation, value, alpha} = HexColor.toHSV(props.color);
+      if (!color || previous_hex === color) return;
+      const {hue, saturation, value, alpha} = HexColor.toHSV(color);
       setHue(hue);
       setSaturation(saturation);
       setValue(value);
       setAlpha(alpha);
-      setPreviousHex(props.color);
+      setPreviousHex(color);
     },
-    [props.color]
+    [color]
   );
 
-  const hex = previous_hex ?? props.color;
-  const classes = [Style.Component, "color-picker"];
-  if (props.className) classes.push(props.className);
+  const hex = previous_hex ?? color;
+  const preview_color: React.CSSProperties = {background: hex};
 
-  const preview_color: React.CSSProperties = {background: props.color};
+  const classes = [Style.Component, "color-picker"];
+  if (className) classes.push(className);
+
+  const {red, green, blue} = HexColor.toRGB(hex);
+  style["--range-alpha-background"] = `${red}, ${green}, ${blue}`;
 
   return (
-    <div className={classes.join(" ")}>
+    <div {...component_props} className={classes.join(" ")} style={style}>
       <div className={"color-picker-control"}>
         <Range className={"color-picker-range-hue"} vertical={true} value={hue} min={0} max={360} onChange={onHueChange}/>
         <Range className={"color-picker-range-alpha"} vertical={true} value={alpha * 100} min={0} max={100} onChange={onAlphaChange}/>
@@ -142,12 +148,12 @@ function ColorPicker(props: ColorPickerProps) {
   }
 }
 
-export interface ColorPickerProps {
-  className?: string;
+type ColorPickerStyleProps = React.CSSProperties & {"--range-alpha-background"?: string}
+
+export interface ColorPickerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "children" | "style"> {
   color?: string;
-
+  style?: ColorPickerStyleProps;
   children?: never;
-
   onChange?(hex?: string): void;
 }
 

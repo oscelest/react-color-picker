@@ -1,11 +1,9 @@
 :root .Component {
+  --range-dimension:                    10px;
+  --range-alpha-background:             0, 0, 0;
   --input-field-value-font-size:        14px;
   --input-field-label-font-size:        14px;
   --input-field-label-active-font-size: 11px;
-}
-
-:root .Component:global(.color-picker .range) {
-  --range-dimension: 10px
 }
 
 .Component * {
@@ -33,7 +31,8 @@
   grid-column-gap: 12px;
 }
 
-.Component:global(.color-picker .color-picker-range-alpha .range-bar::after), .Component:global(.color-picker .color-picker-range-alpha .range-bar::before) {
+.Component:global(.color-picker .color-picker-range-alpha .range-bar::after),
+.Component:global(.color-picker .color-picker-range-alpha .range-bar::before) {
   content:  " ";
   position: absolute;
   top:      0;
@@ -43,7 +42,7 @@
 }
 
 .Component:global(.color-picker .color-picker-range-alpha .range-bar::after) {
-  background: linear-gradient(to top, rgba(81, 41, 212, 0) 0%, rgb(81, 41, 212) 100%);
+  background: linear-gradient(to top, rgba(var(--range-alpha-background), 0) 0%, rgb(var(--range-alpha-background)) 100%);
 }
 
 .Component:global(.color-picker .color-picker-range-alpha .range-bar::before) {
@@ -72,7 +71,8 @@
   border:          1px solid black;
 }
 
-.Component:global(.color-picker .color-picker-window:before), .Component:global(.color-picker .color-picker-window:after) {
+.Component:global(.color-picker .color-picker-window:before),
+.Component:global(.color-picker .color-picker-window:after) {
   content:  " ";
   position: absolute;
   top:      0;
