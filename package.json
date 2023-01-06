@@ -28,8 +28,8 @@
   },
   "dependencies":     {
     "@noxy/geometry":          "^0.2.2",
-    "@noxy/react-input-field": "^0.5.2",
-    "@noxy/react-range":       "^0.2.1"
+    "@noxy/react-input-field": "^0.5.3",
+    "@noxy/react-range":       "^0.2.2"
   },
   "devDependencies":  {
     "@rollup/plugin-commonjs":          "^24.0.0",
