@@ -1,7 +1,7 @@
 {
   "name":             "@noxy/react-color-picker",
   "author":           "oscelest",
-  "version":          "0.2.0",
+  "version":          "0.2.1",
   "description":      "A simple color picker react element.",
   "license":          "MIT",
   "repository":       {
