@@ -2,7 +2,7 @@ import {InputField, InputFieldType} from "@noxy/react-input-field";
 import Utility from "../modules/Utility";
 import React, {useState, useEffect} from "react";
 
-function HexInput(props: HexInputProps) {
+export function HexInput(props: HexInputProps) {
   const [hex, setHex] = useState<string>(props.hex.toLowerCase());
   useEffect(() => setHex(Utility.getFullHex(hex) === Utility.getFullHex(props.hex) ? hex : props.hex.toLowerCase()), [props.hex]);
 
@@ -29,5 +29,3 @@ export interface HexInputProps {
   hex: string;
   onChange(hex: string): void;
 }
-
-export default HexInput;

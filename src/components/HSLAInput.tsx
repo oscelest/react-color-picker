@@ -2,7 +2,7 @@ import {InputField, InputFieldType} from "@noxy/react-input-field";
 import React, {useState, useEffect} from "react";
 import Utility from "../modules/Utility";
 
-function HSLAInput(props: HSLAInputProps) {
+export function HSLAInput(props: HSLAInputProps) {
   const [hue, setHue] = useState<string>(props.hue.toFixed(0));
   const [saturation, setSaturation] = useState<string>((props.saturation * 100).toFixed(0));
   const [lightness, setLightness] = useState<string>((props.lightness * 100).toFixed(0));
@@ -62,5 +62,3 @@ export interface HSLAInputProps {
   alpha: number;
   onChange(hue: number, saturation: number, lightness: number, alpha: number): void;
 }
-
-export default HSLAInput;

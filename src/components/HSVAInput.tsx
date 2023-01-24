@@ -2,7 +2,7 @@ import {InputField, InputFieldType} from "@noxy/react-input-field";
 import React, {useState, useEffect} from "react";
 import Utility from "../modules/Utility";
 
-function HSVAInput(props: HSVAInputProps) {
+export function HSVAInput(props: HSVAInputProps) {
   const [hue, setHue] = useState<string>(props.hue.toFixed(0));
   const [saturation, setSaturation] = useState<string>(props.saturation.toFixed(0));
   const [value, setValue] = useState<string>(props.value.toFixed(0));
@@ -62,5 +62,3 @@ export interface HSVAInputProps {
   alpha: number;
   onChange(hue: number, saturation: number, value: number, alpha: number): void;
 }
-
-export default HSVAInput;

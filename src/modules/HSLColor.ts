@@ -1,4 +1,4 @@
-module HSLColor {
+export module HSLColor {
 
   function validateHSL(h: number, s: number, l: number, a: number) {
     if (h < 0 || h > 360) throw new Error(`Hue (${h}) must be a number between 0 and 360`);

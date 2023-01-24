@@ -1,6 +1,6 @@
 import RGBColor from "./RGBColor";
 
-module HSVColor {
+export module HSVColor {
 
   function validateHSV(h: number, s: number, v: number, a: number) {
     if (h < 0 || h > 360) throw new Error(`Hue (${h}) must be a number between 0 and 360`);

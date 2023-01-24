@@ -1,4 +1,4 @@
-module Utility {
+export module Utility {
 
   export const hex_filter = /^#?[a-f\d]{0,8}$/i;
   export const number_filter = /^\d*$/;

@@ -1,6 +1,6 @@
 import RGBColor from "./RGBColor";
 
-module HexColor {
+export module HexColor {
 
   export function validateHex(hex?: string) {
     if (!hex?.match(/#[a-f\d]{8}/i)) throw new Error("Hex must be of the form '/#[a-f\\d]{8}/'.");
@@ -22,11 +22,10 @@ module HexColor {
     return parseInt(hex.slice(-2), 16);
   }
 
-  export function toRGB(hex: string) {
+  export function toRGBA(hex: string) {
     validateHex(hex);
 
     return {
-      hex,
       red: getRedInt(hex),
       green: getGreenInt(hex),
       blue: getBlueInt(hex),
@@ -34,9 +33,9 @@ module HexColor {
     };
   }
 
-  export function toHSV(hex: string) {
-    const {red, green, blue, alpha} = toRGB(hex);
-    return RGBColor.toHSV(red, green, blue, alpha);
+  export function toHSVA(hex: string) {
+    const {red, green, blue, alpha} = toRGBA(hex);
+    return RGBColor.toHSVA(red, green, blue, alpha);
   }
 }
 

@@ -1,6 +1,6 @@
 import React, {useRef} from "react";
 
-function ColorPickerWindow(props: HexInputProps) {
+export function ColorPickerWindow(props: ColorPickerWindowProps) {
   const ref = useRef<HTMLDivElement>(null);
   const style: React.CSSProperties = {background: `hsla(${props.hue}deg, 100%, 50%, 100%)`};
 
@@ -44,11 +44,9 @@ function ColorPickerWindow(props: HexInputProps) {
   }
 }
 
-export interface HexInputProps {
+export interface ColorPickerWindowProps {
   hue?: number;
   x?: number;
   y?: number;
   onChange?(x: number, y: number): void;
 }
-
-export default ColorPickerWindow;

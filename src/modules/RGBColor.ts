@@ -1,4 +1,4 @@
-module RGBColor {
+export module RGBColor {
 
   export function toHex(red: number, green: number, blue: number, alpha: number) {
     return `#${asHexValue(red)}${asHexValue(green)}${asHexValue(blue)}${asHexValue(alpha)}`;
@@ -8,7 +8,7 @@ module RGBColor {
     return Math.round(value).toString(16).padStart(length, padding);
   }
 
-  export function toHSV(red: number, green: number, blue: number, alpha: number) {
+  export function toHSVA(red: number, green: number, blue: number, alpha: number) {
     red /= 255;
     green /= 255;
     blue /= 255;
