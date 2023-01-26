@@ -103,8 +103,8 @@
 
 .Component:global(.color-picker .color-picker-preview) {
   position:   relative;
-  width:      32px;
-  height:     32px;
+  width:      40px;
+  height:     40px;
   background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) 50% / 10px 10px;
   border:     1px solid black;
 }
@@ -133,7 +133,7 @@
 }
 
 .Component:global(.color-picker .color-picker-type) {
-  width: 60px;
+  width:    60px;
 }
 
 .Component:global(.color-picker .color-picker-type .input-field-dropdown-option) {
@@ -154,11 +154,11 @@
 .Component:global(.color-picker .color-picker-input.rgba-green),
 .Component:global(.color-picker .color-picker-input.rgba-blue),
 .Component:global(.color-picker .color-picker-input.rgba-alpha) {
-  width: 45px;
+  width:    45px;
 }
 
 .Component:global(.color-picker .color-picker-input.hex) {
-  width: 195px;
+  width:    195px;
 }
 
 

@@ -1,19 +1,24 @@
+import HSVColor from "./HSVColor";
+
 export module RGBColor {
-
-  export function toHex(red: number, green: number, blue: number, alpha: number) {
-    return `#${asHexValue(red)}${asHexValue(green)}${asHexValue(blue)}${asHexValue(alpha)}`;
+  
+  export interface Definition {
+    red: number;
+    green: number;
+    blue: number;
+    alpha: number;
   }
-
-  function asHexValue(value: number, padding: string = "0", length: number = 2) {
-    return Math.round(value).toString(16).padStart(length, padding);
+  
+  export function toHex({red, green, blue, alpha}: RGBColor.Definition): string {
+    return `#${asHexValue(red)}${asHexValue(green)}${asHexValue(blue)}${asHexValue(alpha * 2.55)}`;
   }
-
-  export function toHSVA(red: number, green: number, blue: number, alpha: number) {
+  
+  export function toHSVA({red, green, blue, alpha}: RGBColor.Definition): HSVColor.Definition {
     red /= 255;
     green /= 255;
     blue /= 255;
     alpha /= 100;
-
+    
     const value = getValueHSX(red, blue, green);
     const chroma = getChromaHSX(red, blue, green, value);
     return {
@@ -23,18 +28,22 @@ export module RGBColor {
       alpha
     };
   }
-
-  export function getValueHSX(red: number, green: number, blue: number) {
+  
+  function asHexValue(value: number, padding: string = "0", length: number = 2): string {
+    return Math.round(value).toString(16).padStart(length, padding);
+  }
+  
+  function getValueHSX(red: number, green: number, blue: number): number {
     return Math.max(red, green, blue);
   }
-
-  export function getChromaHSX(red: number, green: number, blue: number, value: number) {
+  
+  function getChromaHSX(red: number, green: number, blue: number, value: number): number {
     return value - Math.min(red, green, blue);
   }
-
-  export function getHueHSX(red: number, green: number, blue: number, value: number = getValueHSX(red, green, blue), chroma: number = getChromaHSX(red, green, blue, value)) {
+  
+  function getHueHSX(red: number, green: number, blue: number, value: number = getValueHSX(red, green, blue), chroma: number = getChromaHSX(red, green, blue, value)) {
     if (chroma === 0) return 0;
-
+    
     let hue: number;
     if (value === red) {
       hue = (green - blue) / chroma;
@@ -48,13 +57,12 @@ export module RGBColor {
     else {
       hue = 0;
     }
-
+    
     return 60 * (hue < 0 ? hue + 6 : hue);
   }
-
-  export function getSaturationHSV(value: number, chroma: number) {
-    if (value === 0) return 0;
-    return chroma / value;
+  
+  function getSaturationHSV(value: number, chroma: number) {
+    return value !== 0 ? chroma / value : 0;
   }
 }
 

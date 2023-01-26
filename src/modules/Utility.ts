@@ -1,7 +1,8 @@
 export module Utility {
 
+  export const color_type_list = ["Hex", "RGB", "HSV", "HSL"];
   export const hex_filter = /^#?[a-f\d]{0,8}$/i;
-  export const number_filter = /^\d*$/;
+  export const number_filter = /^\d{0,3}$/;
 
   export function getFullHex(hex: string = "") {
     const offset = hex[0] === "#" ? 1 : 0;
@@ -20,7 +21,8 @@ export module Utility {
     return Math.min(Math.max(parseInt(input) || 0, 0), 360);
   }
 
-  export function parseSVLA(value: string) {
+  // Convert a Saturation, Value, or Lightness int (1-100) to decimal (0-1)
+  export function parseSVL(value: string) {
     return Math.min(Math.max(parseInt(value) || 0, 0), 100) / 100;
   }
 

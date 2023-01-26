@@ -1,64 +1,44 @@
-import {InputField, InputFieldType} from "@noxy/react-input-field";
+import {InputField, InputFieldChangeEvent, InputFieldType} from "@noxy/react-input-field";
 import React, {useEffect, useState} from "react";
+import {RGBColor} from "../modules";
 import Utility from "../modules/Utility";
 
 export function RGBAInput(props: RGBAInputProps) {
-  const [red, setRed] = useState<string>(props.red.toFixed(0));
-  const [green, setGreen] = useState<string>(props.blue.toFixed(0));
-  const [blue, setBlue] = useState<string>(props.green.toFixed(0));
-  const [alpha, setAlpha] = useState<string>(props.alpha.toFixed(0));
-  
-  useEffect(() => setRed(Utility.resolveValue(props.red, red)), [props.red]);
-  useEffect(() => setGreen(Utility.resolveValue(props.green, green)), [props.green]);
-  useEffect(() => setBlue(Utility.resolveValue(props.blue, blue)), [props.blue]);
-  useEffect(() => setAlpha(Utility.resolveValue(props.alpha, alpha)), [props.alpha]);
+  const {value} = props;
+  const [color, setColor] = useState<RGBColor.Definition>(value);
   
   return (
     <>
-      <InputField className={"color-picker-input rgba-red"} type={InputFieldType.TEL} label={"R"} input={red} filter={Utility.number_filter}
-                  onInputChange={onRedChange} onCommit={onCommit}/>
-      <InputField className={"color-picker-input rgba-green"} type={InputFieldType.TEL} label={"G"} input={green} filter={Utility.number_filter}
-                  onInputChange={onBlueChange} onCommit={onCommit}/>
-      <InputField className={"color-picker-input rgba-blue"} type={InputFieldType.TEL} label={"B"} input={blue} filter={Utility.number_filter}
-                  onInputChange={onGreenChange} onCommit={onCommit}/>
-      <InputField className={"color-picker-input rgba-alpha"} type={InputFieldType.TEL} label={"A"} input={alpha} filter={Utility.number_filter}
-                  onInputChange={onAlphaChange} onCommit={onCommit}/>
+      <InputField className={"color-picker-input rgba-red"} type={InputFieldType.TEL} label={"Red"} value={color.red} filter={Utility.number_filter} onChange={onRedChange}/>
+      <InputField className={"color-picker-input rgba-green"} type={InputFieldType.TEL} label={"Green"} value={color.green} filter={Utility.number_filter} onChange={onBlueChange}/>
+      <InputField className={"color-picker-input rgba-blue"} type={InputFieldType.TEL} label={"Blue"} value={color.blue} filter={Utility.number_filter} onChange={onGreenChange}/>
+      <InputField className={"color-picker-input rgba-alpha"} type={InputFieldType.TEL} label={"Alpha"} value={color.alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
     </>
   );
   
-  function onRedChange(red: string) {
-    updateColor(red, green, blue, alpha);
+  function onRedChange(event: InputFieldChangeEvent) {
+    updateColor({...color, red: Utility.parseRGB(event.value)});
   }
   
-  function onBlueChange(green: string) {
-    updateColor(red, green, blue, alpha);
+  function onBlueChange(event: InputFieldChangeEvent) {
+    updateColor({...color, blue: Utility.parseRGB(event.value)});
   }
   
-  function onGreenChange(blue: string) {
-    updateColor(red, green, blue, alpha);
+  function onGreenChange(event: InputFieldChangeEvent) {
+    updateColor({...color, green: Utility.parseRGB(event.value)});
   }
   
-  function onAlphaChange(alpha: string) {
-    updateColor(red, green, blue, alpha);
+  function onAlphaChange(event: InputFieldChangeEvent) {
+    setColor({...color, alpha: Utility.parseAlpha(event.value)});
   }
   
-  function onCommit() {
-    updateColor((props.red).toFixed(0), (props.green * 100).toFixed(0), (props.blue * 100).toFixed(0), (props.alpha * 100).toFixed(0));
-  }
-  
-  function updateColor(red: string, green: string, blue: string, alpha: string) {
-    setRed(red);
-    setGreen(green);
-    setBlue(blue);
-    setAlpha(alpha);
-    props.onChange(Utility.parseRGB(red), Utility.parseRGB(green), Utility.parseRGB(blue), Utility.parseAlpha(alpha));
+  function updateColor(color: RGBColor.Definition) {
+    setColor(color);
+    props.onChange(color);
   }
 }
 
 export interface RGBAInputProps {
-  red: number;
-  green: number;
-  blue: number;
-  alpha: number;
-  onChange(red: number, green: number, blue: number, alpha: number): void;
+  value: RGBColor.Definition
+  onChange(color: RGBColor.Definition): void;
 }

@@ -8,7 +8,7 @@ function IndexPage() {
 
   return (
     <div style={{display: "flex"}}>
-      <ColorPicker color={color} onChange={setColor}/>
+      <ColorPicker value={color} onChange={setColor}/>
     </div>
   )
 

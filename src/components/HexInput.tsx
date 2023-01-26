@@ -1,27 +1,25 @@
-import {InputField, InputFieldType} from "@noxy/react-input-field";
+import {InputField, InputFieldChangeEvent, InputFieldType} from "@noxy/react-input-field";
+import React, {useEffect, useState} from "react";
 import Utility from "../modules/Utility";
-import React, {useState, useEffect} from "react";
+import Style from "./HexInput.module.css"
 
 export function HexInput(props: HexInputProps) {
   const [hex, setHex] = useState<string>(props.hex.toLowerCase());
-  useEffect(() => setHex(Utility.getFullHex(hex) === Utility.getFullHex(props.hex) ? hex : props.hex.toLowerCase()), [props.hex]);
-
-  return (
-    <>
-      <InputField className={"color-picker-input hex"} type={InputFieldType.TEXT} label={"Hex"} input={hex} filter={Utility.hex_filter} onInputChange={onHexChange} onCommit={onHexCommit}/>
-    </>
+  
+  useEffect(
+    () => setHex(Utility.getFullHex(hex) === Utility.getFullHex(props.hex) ? hex : props.hex.toLowerCase()),
+    [props.hex]
   );
-
-  function onHexChange(hex: string) {
-    hex = hex.toLowerCase();
+  
+  return (
+    <InputField className={`${Style.Component} hex`} type={InputFieldType.TEXT} label={"Hex"} value={hex} filter={Utility.hex_filter} onChange={onChange}/>
+  );
+  
+  function onChange(event: InputFieldChangeEvent) {
+    const hex = event.value.toLowerCase();
+    
     setHex(hex);
     props.onChange(Utility.getFullHex(hex));
-  }
-
-  function onHexCommit() {
-    const full_hex = Utility.getFullHex(hex);
-    setHex(full_hex);
-    props.onChange(full_hex);
   }
 }
 
