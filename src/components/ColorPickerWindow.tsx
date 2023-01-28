@@ -17,7 +17,6 @@ export function ColorPickerWindow(props: ColorPickerWindowProps) {
     </div>
   );
   
-  
   function onMouseDown() {
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
@@ -62,7 +61,7 @@ function renderCursor(x?: number, y?: number) {
 }
 
 export interface ColorPickerWindowProps extends Omit<HTMLProps<HTMLDivElement>, "onChange"> {
-  hue?: number;
+  hue: number;
   x?: number;
   y?: number;
   onChange?(x: number, y: number): void;

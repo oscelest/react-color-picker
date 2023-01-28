@@ -57,108 +57,11 @@
                         rgb(255, 0, 0) 100%);
 }
 
-/* ----- Window ----- */
-
-.Component:global(.color-picker .color-picker-window) {
-  position:        relative;
-  flex:            0 0 auto;
-  justify-content: center;
-  grid-column-gap: 8px;
-  padding-bottom:  calc(100% - 2px);
-  border:          1px solid black;
-}
-
-.Component:global(.color-picker .color-picker-window:before),
-.Component:global(.color-picker .color-picker-window:after) {
-  display:  flex;
-  content:  " ";
-  position: absolute;
-  top:      0;
-  left:     0;
-  right:    0;
-  bottom:   0;
-}
-
-.Component:global(.color-picker .color-picker-window:before) {
-  background: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0));
-}
-
-.Component:global(.color-picker .color-picker-window:after) {
-  background: linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0));
-}
-
-.Component:global(.color-picker .color-picker-window-cursor) {
-  display:       flex;
-  width:         10px;
-  height:        10px;
-  position:      absolute;
-  z-index:       1;
-  transform:     translate(-50%, -50%);
-  border:        1px solid white;
-  border-radius: 50%;
-  box-shadow:    0 0 0 1px black inset;
-}
-
 /* ----- Preview ----- */
 
-.Component:global(.color-picker .color-picker-preview) {
-  position:   relative;
-  width:      32px;
-  height:     32px;
-  background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) 50% / 10px 10px;
-  border:     1px solid black;
-}
 
-.Component:global(.color-picker .color-picker-preview::before) {
-  content:    " ";
-  position:   absolute;
-  top:        0;
-  left:       0;
-  right:      0;
-  bottom:     0;
-  z-index:    -1;
-  background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) 50% / 10px 10px;
-}
 
 /* ----- Input ----- */
 
-.Component:global(.color-picker .color-picker-info) {
-  display:         flex;
-  grid-column-gap: 5px;
-}
-
-.Component:global(.color-picker .color-picker-input) {
-  display:     flex;
-  font-family: monospace;
-}
-
-.Component:global(.color-picker .color-picker-type) {
-  width: 60px;
-}
-
-.Component:global(.color-picker .color-picker-type .input-field-dropdown-option) {
-  padding:     4px;
-  font-size:   var(--input-field-value-font-size);
-  line-height: var(--input-field-value-font-size);
-}
-
-.Component:global(.color-picker .color-picker-input.hsva-hue),
-.Component:global(.color-picker .color-picker-input.hsva-saturation),
-.Component:global(.color-picker .color-picker-input.hsva-value),
-.Component:global(.color-picker .color-picker-input.hsva-alpha),
-.Component:global(.color-picker .color-picker-input.hsla-hue),
-.Component:global(.color-picker .color-picker-input.hsla-saturation),
-.Component:global(.color-picker .color-picker-input.hsla-lightness),
-.Component:global(.color-picker .color-picker-input.hsla-alpha),
-.Component:global(.color-picker .color-picker-input.rgba-red),
-.Component:global(.color-picker .color-picker-input.rgba-green),
-.Component:global(.color-picker .color-picker-input.rgba-blue),
-.Component:global(.color-picker .color-picker-input.rgba-alpha) {
-  width: 45px;
-}
-
-.Component:global(.color-picker .color-picker-input.hex) {
-  width: 195px;
-}
 
 

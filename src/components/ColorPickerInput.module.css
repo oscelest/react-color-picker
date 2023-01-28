@@ -1,0 +1,31 @@
+.Component {
+  display:         flex;
+  flex:            1 1 auto;
+  flex-flow:       row;
+  grid-column-gap: 5px;
+  width:           250px;
+}
+
+.Component :global(.color-picker-type) {
+  width:       55px;
+  font-family: monospace;
+}
+
+.Component:global(.color-picker .color-picker-input.hsva-hue),
+.Component:global(.color-picker .color-picker-input.hsva-saturation),
+.Component:global(.color-picker .color-picker-input.hsva-value),
+.Component:global(.color-picker .color-picker-input.hsva-alpha),
+.Component:global(.color-picker .color-picker-input.hsla-hue),
+.Component:global(.color-picker .color-picker-input.hsla-saturation),
+.Component:global(.color-picker .color-picker-input.hsla-lightness),
+.Component:global(.color-picker .color-picker-input.hsla-alpha),
+.Component:global(.color-picker .color-picker-input.rgba-red),
+.Component:global(.color-picker .color-picker-input.rgba-green),
+.Component:global(.color-picker .color-picker-input.rgba-blue),
+.Component:global(.color-picker .color-picker-input.rgba-alpha) {
+  width: 45px;
+}
+
+.Component:global(.color-picker .color-picker-input.hex) {
+  width: 195px;
+}

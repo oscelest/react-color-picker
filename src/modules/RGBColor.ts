@@ -1,3 +1,4 @@
+import HexColor from "./HexColor";
 import HSVColor from "./HSVColor";
 
 export module RGBColor {
@@ -9,11 +10,11 @@ export module RGBColor {
     alpha: number;
   }
   
-  export function toHex({red, green, blue, alpha}: RGBColor.Definition): string {
+  export function toHex({red, green, blue, alpha}: RGBColor.Definition): HexColor.Definition {
     return `#${asHexValue(red)}${asHexValue(green)}${asHexValue(blue)}${asHexValue(alpha * 2.55)}`;
   }
   
-  export function toHSVA({red, green, blue, alpha}: RGBColor.Definition): HSVColor.Definition {
+  export function toHSV({red, green, blue, alpha}: RGBColor.Definition): HSVColor.Definition {
     red /= 255;
     green /= 255;
     blue /= 255;
@@ -21,6 +22,7 @@ export module RGBColor {
     
     const value = getValueHSX(red, blue, green);
     const chroma = getChromaHSX(red, blue, green, value);
+    
     return {
       hue: getHueHSX(red, green, blue, value, chroma),
       saturation: getSaturationHSV(value, chroma),
@@ -41,7 +43,7 @@ export module RGBColor {
     return value - Math.min(red, green, blue);
   }
   
-  function getHueHSX(red: number, green: number, blue: number, value: number = getValueHSX(red, green, blue), chroma: number = getChromaHSX(red, green, blue, value)) {
+  function getHueHSX(red: number, green: number, blue: number, value, chroma: number) {
     if (chroma === 0) return 0;
     
     let hue: number;
