@@ -22,7 +22,7 @@ export function HexInput(props: HexInputProps) {
   
   return (
     <div {...component_props} className={classes.join(" ")}>
-      <InputField className={`${Style.Component} hex`} type={InputFieldType.TEXT} label={"Hex"} value={hex} filter={Utility.hex_filter} onChange={onInputChange}/>
+      <InputField className={"hex"} type={InputFieldType.TEXT} label={"Hex"} value={hex} filter={Utility.hex_filter} onChange={onInputChange}/>
     </div>
   );
   

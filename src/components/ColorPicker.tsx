@@ -12,7 +12,7 @@ export function ColorPicker(props: ColorPickerProps) {
   
   const [hex, setHex] = useState<string>("#facadeff");
   const [color, setColor] = useState<HSVColor.Definition>(HexColor.toHSV(hex));
-
+  
   const classes = [Style.Component, "color-picker"];
   if (className) classes.push(className);
   

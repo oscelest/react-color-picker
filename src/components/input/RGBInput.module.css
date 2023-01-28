@@ -1,6 +1,10 @@
 .Component {
-  display:   flex;
-  flex:      1 1 auto;
-  flex-flow: row;
+  display:         flex;
+  flex:            1 1 auto;
+  flex-flow:       row;
   grid-column-gap: 5px;
+}
+
+.Component :global(.input-field) {
+  flex: 1 1 25%;
 }

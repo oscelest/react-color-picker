@@ -6,7 +6,7 @@
   --input-field-label-active-font-size: 11px;
 }
 
-.Component:global(.color-picker) {
+.Component {
   display:               grid;
   grid-row-gap:          8px;
   grid-column-gap:       8px;
@@ -56,12 +56,3 @@
                         rgb(255, 0, 255) 83%,
                         rgb(255, 0, 0) 100%);
 }
-
-/* ----- Preview ----- */
-
-
-
-/* ----- Input ----- */
-
-
-

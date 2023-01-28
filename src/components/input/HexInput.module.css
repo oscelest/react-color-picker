@@ -3,3 +3,7 @@
   flex:      1 1 auto;
   flex-flow: row;
 }
+
+.Component :global(.input-field) {
+  flex: 1 1 auto;
+}

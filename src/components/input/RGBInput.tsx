@@ -28,10 +28,10 @@ export function RGBInput(props: RGBInputProps) {
   
   return (
     <div {...component_props} className={classes.join(" ")}>
-      <InputField className={"color-picker-input rgba-red"} type={InputFieldType.TEL} label={"Red"} value={red} filter={Utility.number_filter} onChange={onRedChange}/>
-      <InputField className={"color-picker-input rgba-green"} type={InputFieldType.TEL} label={"Green"} value={green} filter={Utility.number_filter} onChange={onBlueChange}/>
-      <InputField className={"color-picker-input rgba-blue"} type={InputFieldType.TEL} label={"Blue"} value={blue} filter={Utility.number_filter} onChange={onGreenChange}/>
-      <InputField className={"color-picker-input rgba-alpha"} type={InputFieldType.TEL} label={"Alpha"} value={alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
+      <InputField className={"rgb-red"} type={InputFieldType.TEL} label={"Red"} value={red} filter={Utility.number_filter} onChange={onRedChange}/>
+      <InputField className={"rgb-green"} type={InputFieldType.TEL} label={"Green"} value={green} filter={Utility.number_filter} onChange={onGreenChange}/>
+      <InputField className={"rgb-blue"} type={InputFieldType.TEL} label={"Blue"} value={blue} filter={Utility.number_filter} onChange={onBlueChange}/>
+      <InputField className={"rgb-alpha"} type={InputFieldType.TEL} label={"Alpha"} value={alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
     </div>
   );
   
@@ -41,12 +41,12 @@ export function RGBInput(props: RGBInputProps) {
   }
   
   function onBlueChange(event: InputFieldChangeEvent) {
-    setGreen(event.value);
+    setBlue(event.value);
     onChange(RGBColor.toHSV({...color, blue: Utility.parseRGB(event.value)}));
   }
   
   function onGreenChange(event: InputFieldChangeEvent) {
-    setBlue(event.value);
+    setGreen(event.value);
     onChange(RGBColor.toHSV({...color, green: Utility.parseRGB(event.value)}));
   }
   

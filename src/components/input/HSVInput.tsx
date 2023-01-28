@@ -11,10 +11,10 @@ export function HSVInput(props: HSVInputProps) {
   const classes = [Style.Component, "color-picker-input"];
   if (className) classes.push(className);
   
-  const [hue, setHue] = useState<string>(color.hue.toFixed(0));
-  const [saturation, setSaturation] = useState<string>((color.saturation * 100).toFixed(0));
-  const [value, setValue] = useState<string>((color.value * 100).toFixed(0));
-  const [alpha, setAlpha] = useState<string>((color.alpha * 100).toFixed(0));
+  const [hue, setHue] = useState<string>(Utility.toIntString(color.hue));
+  const [saturation, setSaturation] = useState<string>(Utility.toPercentageString(color.saturation));
+  const [value, setValue] = useState<string>(Utility.toPercentageString(color.value));
+  const [alpha, setAlpha] = useState<string>(Utility.toPercentageString(color.alpha));
   
   useEffect(
     () => {
@@ -28,10 +28,10 @@ export function HSVInput(props: HSVInputProps) {
   
   return (
     <div {...component_props} className={classes.join(" ")}>
-      <InputField className={"color-picker-input hsva-hue"} type={InputFieldType.TEL} label={"H"} value={hue} filter={Utility.number_filter} onChange={onHueChange}/>
-      <InputField className={"color-picker-input hsva-saturation"} type={InputFieldType.TEL} label={"S"} value={saturation} filter={Utility.number_filter} onChange={onSaturationChange}/>
-      <InputField className={"color-picker-input hsva-value"} type={InputFieldType.TEL} label={"V"} value={value} filter={Utility.number_filter} onChange={onValueChange}/>
-      <InputField className={"color-picker-input hsva-alpha"} type={InputFieldType.TEL} label={"A"} value={alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
+      <InputField className={"hsv-hue"} type={InputFieldType.TEL} label={"H"} value={hue} filter={Utility.number_filter} onChange={onHueChange}/>
+      <InputField className={"hsv-saturation"} type={InputFieldType.TEL} label={"S"} value={saturation} filter={Utility.number_filter} onChange={onSaturationChange}/>
+      <InputField className={"hsv-value"} type={InputFieldType.TEL} label={"V"} value={value} filter={Utility.number_filter} onChange={onValueChange}/>
+      <InputField className={"hsv-alpha"} type={InputFieldType.TEL} label={"A"} value={alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
     </div>
   );
   

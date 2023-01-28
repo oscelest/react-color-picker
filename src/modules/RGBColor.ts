@@ -43,7 +43,7 @@ export module RGBColor {
     return value - Math.min(red, green, blue);
   }
   
-  function getHueHSX(red: number, green: number, blue: number, value, chroma: number) {
+  function getHueHSX(red: number, green: number, blue: number, value, chroma: number): number {
     if (chroma === 0) return 0;
     
     let hue: number;

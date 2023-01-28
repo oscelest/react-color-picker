@@ -10,7 +10,7 @@ export module HSVColor {
     value: number;
     alpha: number;
   }
-
+  
   export function toHex(color: HSVColor.Definition): HexColor.Definition {
     return RGBColor.toHex(toRGB(color));
   }

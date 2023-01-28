@@ -11,10 +11,10 @@ export function HSLInput(props: HSLInputProps) {
   const classes = [Style.Component, "color-picker-input"];
   if (className) classes.push(className);
   
-  const [hue, setHue] = useState<string>(color.hue.toFixed(0));
-  const [saturation, setSaturation] = useState<string>((color.saturation * 100).toFixed(0));
-  const [lightness, setLightness] = useState<string>((color.lightness * 100).toFixed(0));
-  const [alpha, setAlpha] = useState<string>((color.alpha * 100).toFixed(0));
+  const [hue, setHue] = useState<string>(Utility.toIntString(color.hue));
+  const [saturation, setSaturation] = useState<string>(Utility.toPercentageString(color.saturation));
+  const [lightness, setLightness] = useState<string>(Utility.toPercentageString(color.lightness));
+  const [alpha, setAlpha] = useState<string>(Utility.toPercentageString(color.alpha));
   
   useEffect(
     () => {
@@ -28,10 +28,10 @@ export function HSLInput(props: HSLInputProps) {
   
   return (
     <div {...component_props} className={classes.join(" ")}>
-      <InputField className={"color-picker-input hsla-hue"} type={InputFieldType.TEL} label={"H"} value={hue} filter={Utility.number_filter} onChange={onHueChange}/>
-      <InputField className={"color-picker-input hsla-saturation"} type={InputFieldType.TEL} label={"S"} value={saturation} filter={Utility.number_filter} onChange={onSaturationChange}/>
-      <InputField className={"color-picker-input hsla-lightness"} type={InputFieldType.TEL} label={"L"} value={lightness} filter={Utility.number_filter} onChange={onLightnessChange}/>
-      <InputField className={"color-picker-input hsla-alpha"} type={InputFieldType.TEL} label={"A"} value={alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
+      <InputField className={"hsl-hue"} type={InputFieldType.TEL} label={"H"} value={hue} filter={Utility.number_filter} onChange={onHueChange}/>
+      <InputField className={"hsl-saturation"} type={InputFieldType.TEL} label={"S"} value={saturation} filter={Utility.number_filter} onChange={onSaturationChange}/>
+      <InputField className={"hsl-lightness"} type={InputFieldType.TEL} label={"L"} value={lightness} filter={Utility.number_filter} onChange={onLightnessChange}/>
+      <InputField className={"hsl-alpha"} type={InputFieldType.TEL} label={"A"} value={alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
     </div>
   );
   
