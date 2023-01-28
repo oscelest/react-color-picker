@@ -1,0 +1,36 @@
+.Component {
+  padding-bottom: calc(100% - 2px);
+  border:         1px solid black;
+  position:       relative;
+}
+
+.Component :global(.color-picker-window-background) {
+  position: absolute;
+  inset:    0;
+}
+
+.Component :global(.color-picker-window-background::before),
+.Component :global(.color-picker-window-background::after) {
+  display:  flex;
+  content:  " ";
+  position: absolute;
+  inset:    0;
+}
+
+.Component :global(.color-picker-window-background::before) {
+  background: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0));
+}
+
+.Component :global(.color-picker-window-background::after) {
+  background: linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0));
+}
+
+.Component :global(.color-picker-window-cursor) {
+  width:         10px;
+  height:        10px;
+  position:      absolute;
+  transform:     translate(-50%, -50%);
+  border:        1px solid white;
+  border-radius: 50%;
+  box-shadow:    0 0 0 1px black inset;
+}
