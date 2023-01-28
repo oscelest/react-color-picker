@@ -9,6 +9,14 @@ export module Utility {
     return hex.padEnd(6 + offset, "0").padEnd(8 + offset, "f").padStart(9, "#").toLowerCase();
   }
 
+  export function toIntString(value: number): string {
+    return value.toFixed(0);
+  }
+  
+  export function toPercentageString(value: number): string {
+    return (value * 100).toFixed(0);
+  }
+  
   export function parseRGB(rgb: string) {
     return Math.min(Math.max(parseInt(rgb) || 0, 0), 255);
   }

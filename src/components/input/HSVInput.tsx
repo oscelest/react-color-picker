@@ -11,38 +11,48 @@ export function HSVInput(props: HSVInputProps) {
   const classes = [Style.Component, "color-picker-input"];
   if (className) classes.push(className);
   
-  const [hsv, setHSV] = useState<HSVColor.Definition>(color);
+  const [hue, setHue] = useState<string>(color.hue.toFixed(0));
+  const [saturation, setSaturation] = useState<string>((color.saturation * 100).toFixed(0));
+  const [value, setValue] = useState<string>((color.value * 100).toFixed(0));
+  const [alpha, setAlpha] = useState<string>((color.alpha * 100).toFixed(0));
   
-  useEffect(() => setHSV(color), [color]);
+  useEffect(
+    () => {
+      if (color.hue !== Utility.parseHue(hue)) setHue(Utility.toIntString(color.hue));
+      if (color.saturation !== Utility.parseSVL(saturation)) setSaturation(Utility.toPercentageString(color.saturation));
+      if (color.value !== Utility.parseSVL(value)) setValue(Utility.toPercentageString(color.value));
+      if (color.alpha !== Utility.parseAlpha(alpha)) setAlpha(Utility.toPercentageString(color.alpha));
+    },
+    [color]
+  );
   
   return (
     <div {...component_props} className={classes.join(" ")}>
-      <InputField className={"color-picker-input hsva-hue"} type={InputFieldType.TEL} label={"H"} value={hsv.hue} filter={Utility.number_filter} onChange={onHueChange}/>
-      <InputField className={"color-picker-input hsva-saturation"} type={InputFieldType.TEL} label={"S"} value={hsv.saturation} filter={Utility.number_filter} onChange={onSaturationChange}/>
-      <InputField className={"color-picker-input hsva-value"} type={InputFieldType.TEL} label={"V"} value={hsv.value} filter={Utility.number_filter} onChange={onValueChange}/>
-      <InputField className={"color-picker-input hsva-alpha"} type={InputFieldType.TEL} label={"A"} value={hsv.alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
+      <InputField className={"color-picker-input hsva-hue"} type={InputFieldType.TEL} label={"H"} value={hue} filter={Utility.number_filter} onChange={onHueChange}/>
+      <InputField className={"color-picker-input hsva-saturation"} type={InputFieldType.TEL} label={"S"} value={saturation} filter={Utility.number_filter} onChange={onSaturationChange}/>
+      <InputField className={"color-picker-input hsva-value"} type={InputFieldType.TEL} label={"V"} value={value} filter={Utility.number_filter} onChange={onValueChange}/>
+      <InputField className={"color-picker-input hsva-alpha"} type={InputFieldType.TEL} label={"A"} value={alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
     </div>
   );
   
   function onHueChange(event: InputFieldChangeEvent) {
-    updateColor({...hsv, hue: Utility.parseHue(event.value)});
+    setHue(event.value);
+    onChange({...color, hue: Utility.parseHue(event.value)});
   }
   
   function onSaturationChange(event: InputFieldChangeEvent) {
-    updateColor({...hsv, saturation: Utility.parseSVL(event.value)});
+    setSaturation(event.value);
+    onChange({...color, saturation: Utility.parseSVL(event.value)});
   }
   
   function onValueChange(event: InputFieldChangeEvent) {
-    updateColor({...hsv, value: Utility.parseSVL(event.value)});
+    setValue(event.value);
+    onChange({...color, value: Utility.parseSVL(event.value)});
   }
   
   function onAlphaChange(event: InputFieldChangeEvent) {
-    updateColor({...hsv, alpha: Utility.parseAlpha(event.value)});
-  }
-  
-  function updateColor(color: HSVColor.Definition) {
-    setHSV(color);
-    onChange(color);
+    setAlpha(event.value);
+    onChange({...color, alpha: Utility.parseAlpha(event.value)});
   }
 }
 

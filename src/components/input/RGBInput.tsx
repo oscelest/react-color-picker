@@ -11,38 +11,48 @@ export function RGBInput(props: RGBInputProps) {
   const classes = [Style.Component, "color-picker-input"];
   if (className) classes.push(className);
   
-  const [rgb, setRGB] = useState<RGBColor.Definition>(color);
+  const [red, setRed] = useState<string>(Utility.toIntString(color.red));
+  const [green, setGreen] = useState<string>(Utility.toIntString(color.green));
+  const [blue, setBlue] = useState<string>(Utility.toIntString(color.blue));
+  const [alpha, setAlpha] = useState<string>(Utility.toIntString(color.alpha));
   
-  useEffect(() => setRGB(color), [color]);
+  useEffect(
+    () => {
+      if (color.red !== Utility.parseRGB(red)) setRed(Utility.toIntString(color.red));
+      if (color.green !== Utility.parseRGB(green)) setGreen(Utility.toIntString(color.green));
+      if (color.blue !== Utility.parseRGB(blue)) setBlue(Utility.toIntString(color.blue));
+      if (color.alpha !== Utility.parseAlpha(alpha)) setAlpha(Utility.toIntString(color.alpha));
+    },
+    [color]
+  );
   
   return (
     <div {...component_props} className={classes.join(" ")}>
-      <InputField className={"color-picker-input rgba-red"} type={InputFieldType.TEL} label={"Red"} value={rgb.red} filter={Utility.number_filter} onChange={onRedChange}/>
-      <InputField className={"color-picker-input rgba-green"} type={InputFieldType.TEL} label={"Green"} value={rgb.green} filter={Utility.number_filter} onChange={onBlueChange}/>
-      <InputField className={"color-picker-input rgba-blue"} type={InputFieldType.TEL} label={"Blue"} value={rgb.blue} filter={Utility.number_filter} onChange={onGreenChange}/>
-      <InputField className={"color-picker-input rgba-alpha"} type={InputFieldType.TEL} label={"Alpha"} value={rgb.alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
+      <InputField className={"color-picker-input rgba-red"} type={InputFieldType.TEL} label={"Red"} value={red} filter={Utility.number_filter} onChange={onRedChange}/>
+      <InputField className={"color-picker-input rgba-green"} type={InputFieldType.TEL} label={"Green"} value={green} filter={Utility.number_filter} onChange={onBlueChange}/>
+      <InputField className={"color-picker-input rgba-blue"} type={InputFieldType.TEL} label={"Blue"} value={blue} filter={Utility.number_filter} onChange={onGreenChange}/>
+      <InputField className={"color-picker-input rgba-alpha"} type={InputFieldType.TEL} label={"Alpha"} value={alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
     </div>
   );
   
   function onRedChange(event: InputFieldChangeEvent) {
-    updateColor({...rgb, red: Utility.parseRGB(event.value)});
+    setRed(event.value);
+    onChange(RGBColor.toHSV({...color, red: Utility.parseRGB(event.value)}));
   }
   
   function onBlueChange(event: InputFieldChangeEvent) {
-    updateColor({...rgb, blue: Utility.parseRGB(event.value)});
+    setGreen(event.value);
+    onChange(RGBColor.toHSV({...color, blue: Utility.parseRGB(event.value)}));
   }
   
   function onGreenChange(event: InputFieldChangeEvent) {
-    updateColor({...rgb, green: Utility.parseRGB(event.value)});
+    setBlue(event.value);
+    onChange(RGBColor.toHSV({...color, green: Utility.parseRGB(event.value)}));
   }
   
   function onAlphaChange(event: InputFieldChangeEvent) {
-    updateColor({...rgb, alpha: Utility.parseAlpha(event.value)});
-  }
-  
-  function updateColor(color: RGBColor.Definition) {
-    setRGB(color);
-    onChange(RGBColor.toHSV(color));
+    setAlpha(event.value);
+    onChange(RGBColor.toHSV({...color, alpha: Utility.parseAlpha(event.value)}));
   }
 }
 

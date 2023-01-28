@@ -11,38 +11,48 @@ export function HSLInput(props: HSLInputProps) {
   const classes = [Style.Component, "color-picker-input"];
   if (className) classes.push(className);
   
-  const [hsl, setHsl] = useState<HSLColor.Definition>(color);
+  const [hue, setHue] = useState<string>(color.hue.toFixed(0));
+  const [saturation, setSaturation] = useState<string>((color.saturation * 100).toFixed(0));
+  const [lightness, setLightness] = useState<string>((color.lightness * 100).toFixed(0));
+  const [alpha, setAlpha] = useState<string>((color.alpha * 100).toFixed(0));
   
-  useEffect(() => setHsl(color), [color]);
+  useEffect(
+    () => {
+      if (color.hue !== Utility.parseHue(hue)) setHue(Utility.toIntString(color.hue));
+      if (color.saturation !== Utility.parseSVL(saturation)) setSaturation(Utility.toPercentageString(color.saturation));
+      if (color.lightness !== Utility.parseSVL(lightness)) setLightness(Utility.toPercentageString(color.lightness));
+      if (color.alpha !== Utility.parseAlpha(alpha)) setAlpha(Utility.toPercentageString(color.alpha));
+    },
+    [color]
+  );
   
   return (
     <div {...component_props} className={classes.join(" ")}>
-      <InputField className={"color-picker-input hsla-hue"} type={InputFieldType.TEL} label={"H"} value={hsl.hue} filter={Utility.number_filter} onChange={onHueChange}/>
-      <InputField className={"color-picker-input hsla-saturation"} type={InputFieldType.TEL} label={"S"} value={hsl.saturation} filter={Utility.number_filter} onChange={onSaturationChange}/>
-      <InputField className={"color-picker-input hsla-lightness"} type={InputFieldType.TEL} label={"L"} value={hsl.lightness} filter={Utility.number_filter} onChange={onLightnessChange}/>
-      <InputField className={"color-picker-input hsla-alpha"} type={InputFieldType.TEL} label={"A"} value={hsl.alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
+      <InputField className={"color-picker-input hsla-hue"} type={InputFieldType.TEL} label={"H"} value={hue} filter={Utility.number_filter} onChange={onHueChange}/>
+      <InputField className={"color-picker-input hsla-saturation"} type={InputFieldType.TEL} label={"S"} value={saturation} filter={Utility.number_filter} onChange={onSaturationChange}/>
+      <InputField className={"color-picker-input hsla-lightness"} type={InputFieldType.TEL} label={"L"} value={lightness} filter={Utility.number_filter} onChange={onLightnessChange}/>
+      <InputField className={"color-picker-input hsla-alpha"} type={InputFieldType.TEL} label={"A"} value={alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
     </div>
   );
   
   function onHueChange(event: InputFieldChangeEvent) {
-    updateColor({...hsl, hue: Utility.parseHue(event.value)});
+    setHue(event.value);
+    onChange(HSLColor.toHSV({...color, hue: Utility.parseHue(event.value)}));
   }
   
   function onSaturationChange(event: InputFieldChangeEvent) {
-    updateColor({...hsl, saturation: Utility.parseSVL(event.value)});
+    setSaturation(event.value);
+    onChange(HSLColor.toHSV({...color, saturation: Utility.parseSVL(event.value)}));
   }
   
   function onLightnessChange(event: InputFieldChangeEvent) {
-    updateColor({...hsl, lightness: Utility.parseSVL(event.value)});
+    setLightness(event.value);
+    onChange(HSLColor.toHSV({...color, lightness: Utility.parseSVL(event.value)}));
   }
   
   function onAlphaChange(event: InputFieldChangeEvent) {
-    updateColor({...hsl, alpha: Utility.parseAlpha(event.value)});
-  }
-  
-  function updateColor(value: HSLColor.Definition) {
-    setHsl(value);
-    onChange(HSLColor.toHSV(value));
+    setAlpha(event.value);
+    onChange(HSLColor.toHSV({...color, alpha: Utility.parseAlpha(event.value)}));
   }
 }
 

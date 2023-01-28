@@ -4,6 +4,7 @@
   flex-flow:       row;
   grid-column-gap: 5px;
   width:           250px;
+  font-family:     monospace;
 }
 
 .Component :global(.color-picker-type) {

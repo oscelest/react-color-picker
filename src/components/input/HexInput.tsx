@@ -15,9 +15,7 @@ export function HexInput(props: HexInputProps) {
   
   useEffect(
     () => {
-      if (Utility.getFullHex(hex) !== Utility.getFullHex(color)) {
-        setHex(color.toLowerCase());
-      }
+      if (Utility.getFullHex(hex) !== Utility.getFullHex(color)) setHex(color.toLowerCase());
     },
     [color]
   );
