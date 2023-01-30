@@ -1,6 +1,6 @@
+import {HSLColor, HSVColor} from "@noxy/color";
 import {InputField, InputFieldChangeEvent, InputFieldType} from "@noxy/react-input-field";
 import React, {HTMLProps, useEffect, useState} from "react";
-import {HSLColor, HSVColor} from "../../modules";
 import Utility from "../../modules/Utility";
 import Style from "./HSLInput.module.css";
 
@@ -37,26 +37,26 @@ export function HSLInput(props: HSLInputProps) {
   
   function onHueChange(event: InputFieldChangeEvent) {
     setHue(event.value);
-    onChange(HSLColor.toHSV({...color, hue: Utility.parseHue(event.value)}));
+    onChange(new HSLColor(Utility.parseHue(event.value), color.saturation, color.lightness, color.alpha).toHSV());
   }
   
   function onSaturationChange(event: InputFieldChangeEvent) {
     setSaturation(event.value);
-    onChange(HSLColor.toHSV({...color, saturation: Utility.parseSVL(event.value)}));
+    onChange(new HSLColor(color.hue, Utility.parseSVL(event.value), color.lightness, color.alpha).toHSV());
   }
   
   function onLightnessChange(event: InputFieldChangeEvent) {
     setLightness(event.value);
-    onChange(HSLColor.toHSV({...color, lightness: Utility.parseSVL(event.value)}));
+    onChange(new HSLColor(color.hue, color.saturation, Utility.parseSVL(event.value), color.alpha).toHSV());
   }
   
   function onAlphaChange(event: InputFieldChangeEvent) {
     setAlpha(event.value);
-    onChange(HSLColor.toHSV({...color, alpha: Utility.parseAlpha(event.value)}));
+    onChange(new HSLColor(Utility.parseHue(event.value), color.saturation, color.lightness, Utility.parseAlpha(event.value)).toHSV());
   }
 }
 
 export interface HSLInputProps extends Omit<HTMLProps<HTMLDivElement>, "color" | "onChange"> {
-  color: HSLColor.Definition;
-  onChange(color: HSVColor.Definition): void;
+  color: HSLColor;
+  onChange(color: HSVColor): void;
 }

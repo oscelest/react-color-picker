@@ -1,7 +1,7 @@
 import {InputField, InputFieldChangeEvent, InputFieldType} from "@noxy/react-input-field";
 import React, {HTMLProps, useEffect, useState} from "react";
-import {HexColor, HSVColor} from "../../modules";
 import Utility from "../../modules/Utility";
+import {HexColor, HSVColor} from "@noxy/color";
 import Style from "./HexInput.module.css";
 
 export function HexInput(props: HexInputProps) {
@@ -11,11 +11,11 @@ export function HexInput(props: HexInputProps) {
   const classes = [Style.Component, "color-picker-input"];
   if (className) classes.push(className);
   
-  const [hex, setHex] = useState<string>(color.toLowerCase());
+  const [hex, setHex] = useState<string>(color.toString().toLowerCase());
   
   useEffect(
     () => {
-      if (Utility.getFullHex(hex) !== Utility.getFullHex(color)) setHex(color.toLowerCase());
+      setHex(color.toString());
     },
     [color]
   );
@@ -30,11 +30,11 @@ export function HexInput(props: HexInputProps) {
     const hex = event.value.toLowerCase();
     
     setHex(hex);
-    onChange(HexColor.toHSV(Utility.getFullHex(hex)));
+    onChange(new HexColor(HexColor.sanitize(event.value)).toHSV());
   }
 }
 
 export interface HexInputProps extends Omit<HTMLProps<HTMLDivElement>, "color" | "onChange"> {
-  color: HexColor.Definition;
-  onChange?(color: HSVColor.Definition): void;
+  color: HexColor;
+  onChange?(color: HSVColor): void;
 }

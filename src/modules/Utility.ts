@@ -4,11 +4,6 @@ export module Utility {
   export const hex_filter: RegExp = /^#?[a-f\d]{0,8}$/i;
   export const number_filter: RegExp = /^\d{0,3}$/;
   
-  export function getFullHex(hex: string = ""): string {
-    const offset: number = hex[0] === "#" ? 1 : 0;
-    return hex.padEnd(6 + offset, "0").padEnd(8 + offset, "f").padStart(9, "#").toLowerCase();
-  }
-  
   export function toIntString(value: number): string {
     return value.toFixed(0);
   }

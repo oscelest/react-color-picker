@@ -1,29 +1,31 @@
+import {HexColor, HSVColor} from "@noxy/color";
 import {Range} from "@noxy/react-range";
 import React, {useEffect, useState} from "react";
-import {HexColor, HSVColor} from "../modules";
 import Style from "./ColorPicker.module.css";
 import {ColorPickerInput} from "./ColorPickerInput";
 import {ColorPickerPreview} from "./ColorPickerPreview";
 import {ColorPickerWindow} from "./index";
 
 export function ColorPicker(props: ColorPickerProps) {
-  const {style = {}, value, children, className, ...component_method_props} = props;
+  const {style = {}, value = "#facadeff", children, className, ...component_method_props} = props;
   const {onChange, ...component_props} = component_method_props;
   
-  const [hex, setHex] = useState<string>("#facadeff");
-  const [color, setColor] = useState<HSVColor.Definition>(HexColor.toHSV(hex));
+  const current_value = new HexColor(HexColor.sanitize(value));
+  
+  const [hex, setHex] = useState<HexColor>(current_value);
+  const [color, setColor] = useState<HSVColor>(hex.toHSV());
   
   const classes = [Style.Component, "color-picker"];
   if (className) classes.push(className);
   
-  const {red, green, blue} = HexColor.toRGB(hex);
+  const {red, green, blue} = hex.toRGB();
   style["--range-alpha-background"] = `${red}, ${green}, ${blue}`;
   
   useEffect(
     () => {
-      if (!value || hex === value) return;
-      setColor(HexColor.toHSV(value));
-      setHex(value);
+      if (hex.equalTo(current_value)) return;
+      setColor(current_value.toHSV());
+      setHex(current_value);
     },
     [value]
   );
@@ -41,23 +43,23 @@ export function ColorPicker(props: ColorPickerProps) {
   );
   
   function onHueChange(hue: number) {
-    updateColor({...color, hue});
+    updateColor(new HSVColor(hue, color.saturation, color.value, color.alpha));
   }
   
   function onAlphaChange(alpha: number) {
-    updateColor({...color, alpha: alpha / 100});
+    updateColor(new HSVColor(color.hue, color.saturation, color.value, alpha / 100));
   }
   
   function onWindowChange(x: number, y: number) {
-    updateColor({...color, saturation: x / 100, value: 1 - y / 100});
+    updateColor(new HSVColor(color.hue, x / 100, 1 - y / 100, color.alpha));
   }
   
-  function updateColor(color: HSVColor.Definition) {
-    const hex = HSVColor.toHex(color);
+  function updateColor(color: HSVColor) {
+    const hex = color.toHex();
     
     setColor(color);
     setHex(hex);
-    props.onChange?.(hex);
+    props.onChange?.(hex.toString());
   }
 }
 

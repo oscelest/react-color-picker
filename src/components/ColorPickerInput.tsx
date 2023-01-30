@@ -1,6 +1,7 @@
+import {HSVColor} from "@noxy/color";
 import {InputField, InputFieldChangeEvent, InputFieldEventType} from "@noxy/react-input-field";
 import React, {HTMLProps, useState} from "react";
-import {HSVColor, Utility} from "../modules";
+import {Utility} from "../modules";
 import Style from "./ColorPickerInput.module.css";
 import {HexInput, HSLInput, HSVInput, RGBInput} from "./input";
 
@@ -29,7 +30,7 @@ export function ColorPickerInput(props: ColorPickerInputProps) {
       case 1: {
         // RGBA values are (0-255, 0-255, 0-255, 0-100)
         return (
-          <RGBInput color={HSVColor.toRGB(color)} onChange={onChange}/>
+          <RGBInput color={color.toRGB()} onChange={onChange}/>
         );
       }
       case 2:
@@ -40,13 +41,13 @@ export function ColorPickerInput(props: ColorPickerInputProps) {
       case 3: {
         // HSLA values are (0-360, 0-1, 0-1, 0-1)
         return (
-          <HSLInput color={HSVColor.toHSL(color)} onChange={onChange}/>
+          <HSLInput color={color.toHSL()} onChange={onChange}/>
         );
       }
       default:
         // Hex value is (#0f0f0f0f)
         return (
-          <HexInput color={HSVColor.toHex(color)} onChange={onChange}/>
+          <HexInput color={color.toHex()} onChange={onChange}/>
         );
     }
   }
@@ -61,6 +62,6 @@ export function ColorPickerInput(props: ColorPickerInputProps) {
 }
 
 export interface ColorPickerInputProps extends Omit<HTMLProps<HTMLDivElement>, "color" | "onChange"> {
-  color: HSVColor.Definition;
-  onChange(color: HSVColor.Definition): void;
+  color: HSVColor;
+  onChange(color: HSVColor): void;
 }

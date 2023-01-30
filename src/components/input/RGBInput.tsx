@@ -1,6 +1,6 @@
+import {HSVColor, RGBColor} from "@noxy/color";
 import {InputField, InputFieldChangeEvent, InputFieldType} from "@noxy/react-input-field";
 import React, {HTMLProps, useEffect, useState} from "react";
-import {HSVColor, RGBColor} from "../../modules";
 import Utility from "../../modules/Utility";
 import Style from "./RGBInput.module.css";
 
@@ -37,26 +37,26 @@ export function RGBInput(props: RGBInputProps) {
   
   function onRedChange(event: InputFieldChangeEvent) {
     setRed(event.value);
-    onChange(RGBColor.toHSV({...color, red: Utility.parseRGB(event.value)}));
+    onChange(new RGBColor(Utility.parseRGB(event.value), color.green, color.blue, color.alpha).toHSV());
   }
   
   function onBlueChange(event: InputFieldChangeEvent) {
     setBlue(event.value);
-    onChange(RGBColor.toHSV({...color, blue: Utility.parseRGB(event.value)}));
+    onChange(new RGBColor(color.red, Utility.parseRGB(event.value), color.blue, color.alpha).toHSV());
   }
   
   function onGreenChange(event: InputFieldChangeEvent) {
     setGreen(event.value);
-    onChange(RGBColor.toHSV({...color, green: Utility.parseRGB(event.value)}));
+    onChange(new RGBColor(color.red, color.green, Utility.parseRGB(event.value), color.alpha).toHSV());
   }
   
   function onAlphaChange(event: InputFieldChangeEvent) {
     setAlpha(event.value);
-    onChange(RGBColor.toHSV({...color, alpha: Utility.parseAlpha(event.value)}));
+    onChange(new RGBColor(color.red, color.green, color.blue, Utility.parseAlpha(event.value)).toHSV());
   }
 }
 
 export interface RGBInputProps extends Omit<HTMLProps<HTMLDivElement>, "color" | "onChange"> {
-  color: RGBColor.Definition;
-  onChange(color: HSVColor.Definition): void;
+  color: RGBColor;
+  onChange(color: HSVColor): void;
 }
