@@ -1,9 +1,14 @@
+import {HSVColor} from "@noxy/color";
 import React, {HTMLProps, useRef} from "react";
 import Style from "./ColorPickerWindow.module.css";
 
 export function ColorPickerWindow(props: ColorPickerWindowProps) {
-  const {hue, x, y, className, ...component_method_props} = props;
+  const {color, className, ...component_method_props} = props;
   const {onChange, ...component_props} = component_method_props;
+  
+  const {hue, saturation, value, alpha} = color;
+  const x = saturation * 100;
+  const y = 100 - value * 100;
   
   const ref = useRef<HTMLDivElement>(null);
   
@@ -38,7 +43,8 @@ export function ColorPickerWindow(props: ColorPickerWindowProps) {
     const {scrollWidth, scrollHeight, offsetLeft, offsetTop, clientLeft, clientTop} = ref.current;
     const x = Math.max(0, Math.min(scrollWidth, event.pageX - offsetLeft - clientLeft));
     const y = Math.max(0, Math.min(scrollHeight, event.pageY - offsetTop - clientTop));
-    props.onChange?.(x / scrollWidth * 100, y / scrollHeight * 100);
+  
+    props.onChange?.(new HSVColor(hue, x / scrollWidth, 1 - (y / scrollHeight * 100) / 100, alpha));
   }
 }
 
@@ -60,9 +66,7 @@ function renderCursor(x?: number, y?: number) {
   );
 }
 
-export interface ColorPickerWindowProps extends Omit<HTMLProps<HTMLDivElement>, "onChange"> {
-  hue: number;
-  x?: number;
-  y?: number;
-  onChange?(x: number, y: number): void;
+export interface ColorPickerWindowProps extends Omit<HTMLProps<HTMLDivElement>, "color" | "onChange"> {
+  color: HSVColor;
+  onChange(color: HSVColor): void;
 }

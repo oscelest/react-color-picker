@@ -1,10 +1,10 @@
 import {HexColor, HSVColor} from "@noxy/color";
-import {Range} from "@noxy/react-range";
-import React, {useEffect, useState} from "react";
+import React, {HTMLProps, useEffect, useState} from "react";
 import Style from "./ColorPicker.module.css";
+import {ColorPickerControl} from "./ColorPickerControl";
 import {ColorPickerInput} from "./ColorPickerInput";
 import {ColorPickerPreview} from "./ColorPickerPreview";
-import {ColorPickerWindow} from "./index";
+import {ColorPickerWindow} from "./ColorPickerWindow";
 
 export function ColorPicker(props: ColorPickerProps) {
   const {style = {}, value = "#facadeff", children, className, ...component_method_props} = props;
@@ -18,9 +18,6 @@ export function ColorPicker(props: ColorPickerProps) {
   const classes = [Style.Component, "color-picker"];
   if (className) classes.push(className);
   
-  const {red, green, blue} = hex.toRGB();
-  style["--range-alpha-background"] = `${red}, ${green}, ${blue}`;
-  
   useEffect(
     () => {
       if (hex.equalTo(current_value)) return;
@@ -32,27 +29,12 @@ export function ColorPicker(props: ColorPickerProps) {
   
   return (
     <div {...component_props} className={classes.join(" ")} style={style}>
-      <div className={"color-picker-control"}>
-        <Range className={"color-picker-range-hue"} vertical={true} value={color.hue} min={0} max={360} onChange={onHueChange}/>
-        <Range className={"color-picker-range-alpha"} vertical={true} value={color.alpha} min={0} max={1} onChange={onAlphaChange}/>
-      </div>
-      <ColorPickerWindow hue={color.hue} x={color.saturation * 100} y={100 - color.value * 100} onChange={onWindowChange}/>
+      <ColorPickerControl color={color} onChange={updateColor}/>
+      <ColorPickerWindow color={color} onChange={updateColor}/>
       <ColorPickerPreview color={hex}/>
       <ColorPickerInput color={color} onChange={updateColor}/>
     </div>
   );
-  
-  function onHueChange(hue: number) {
-    updateColor(new HSVColor(hue, color.saturation, color.value, color.alpha));
-  }
-  
-  function onAlphaChange(alpha: number) {
-    updateColor(new HSVColor(color.hue, color.saturation, color.value, alpha));
-  }
-  
-  function onWindowChange(x: number, y: number) {
-    updateColor(new HSVColor(color.hue, x / 100, 1 - y / 100, color.alpha));
-  }
   
   function updateColor(color: HSVColor) {
     const hex = color.toHex();
@@ -63,11 +45,8 @@ export function ColorPicker(props: ColorPickerProps) {
   }
 }
 
-type ColorPickerStyleProps = React.CSSProperties & {"--range-alpha-background"?: string}
-
-export interface ColorPickerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "children" | "style"> {
+export interface ColorPickerProps extends Omit<HTMLProps<HTMLDivElement>, "onChange"> {
   value?: string;
-  style?: ColorPickerStyleProps;
   children?: never;
   onChange?(hex?: string): void;
 }

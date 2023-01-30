@@ -1,11 +1,3 @@
-:root .Component {
-  --range-dimension:                    10px;
-  --range-alpha-background:             0, 0, 0;
-  --input-field-value-font-size:        14px;
-  --input-field-label-font-size:        14px;
-  --input-field-label-active-font-size: 11px;
-}
-
 .Component {
   display:               grid;
   grid-row-gap:          8px;
@@ -15,44 +7,4 @@
   padding:               5px;
   border:                1px solid black;
   border-radius:         5px;
-}
-
-/* ----- Control ----- */
-
-.Component:global(.color-picker .color-picker-control) {
-  display:         flex;
-  flex:            0 0 auto;
-  justify-content: center;
-  grid-column-gap: 12px;
-  position:        relative;
-}
-
-.Component:global(.color-picker .color-picker-range-alpha .range-bar::after),
-.Component:global(.color-picker .color-picker-range-alpha .range-bar::before) {
-  content:  " ";
-  position: absolute;
-  top:      0;
-  left:     0;
-  right:    0;
-  bottom:   0;
-}
-
-.Component:global(.color-picker .color-picker-range-alpha .range-bar::after) {
-  background: linear-gradient(to top, rgba(var(--range-alpha-background), 0) 0%, rgb(var(--range-alpha-background)) 100%);
-}
-
-.Component:global(.color-picker .color-picker-range-alpha .range-bar::before) {
-  background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) 50% / 10px 10px;
-}
-
-.Component:global(.color-picker .color-picker-range-hue) {
-  background-image: linear-gradient(
-                        to top,
-                        rgb(255, 0, 0) 0%,
-                        rgb(255, 255, 0) 17%,
-                        rgb(0, 255, 0) 33%,
-                        rgb(0, 255, 255) 50%,
-                        rgb(0, 0, 255) 67%,
-                        rgb(255, 0, 255) 83%,
-                        rgb(255, 0, 0) 100%);
 }

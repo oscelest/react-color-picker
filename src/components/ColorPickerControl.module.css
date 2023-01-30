@@ -1,0 +1,27 @@
+.Component {
+  display:         flex;
+  flex:            0 0 auto;
+  justify-content: center;
+  grid-column-gap: 12px;
+  position:        relative;
+}
+
+.Component :global(.color-picker-range-alpha::after) {
+  content:    " ";
+  position:   absolute;
+  inset:      0;
+  z-index:    -1;
+  background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) 50% / 10px 10px;
+}
+
+.Component :global(.color-picker-range-hue) {
+  background-image: linear-gradient(
+                        to top,
+                        rgb(255, 0, 0) 0%,
+                        rgb(255, 255, 0) 17%,
+                        rgb(0, 255, 0) 33%,
+                        rgb(0, 255, 255) 50%,
+                        rgb(0, 0, 255) 67%,
+                        rgb(255, 0, 255) 83%,
+                        rgb(255, 0, 0) 100%);
+}
