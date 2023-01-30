@@ -14,24 +14,24 @@ export function RGBInput(props: RGBInputProps) {
   const [red, setRed] = useState<string>(Utility.toIntString(color.red));
   const [green, setGreen] = useState<string>(Utility.toIntString(color.green));
   const [blue, setBlue] = useState<string>(Utility.toIntString(color.blue));
-  const [alpha, setAlpha] = useState<string>(Utility.toIntString(color.alpha));
+  const [alpha, setAlpha] = useState<string>(Utility.toIntString(color.alpha * 100));
   
   useEffect(
     () => {
       if (color.red !== Utility.parseRGB(red)) setRed(Utility.toIntString(color.red));
       if (color.green !== Utility.parseRGB(green)) setGreen(Utility.toIntString(color.green));
       if (color.blue !== Utility.parseRGB(blue)) setBlue(Utility.toIntString(color.blue));
-      if (color.alpha !== Utility.parseAlpha(alpha)) setAlpha(Utility.toIntString(color.alpha));
+      if (color.alpha !== Utility.parseDecimal(alpha)) setAlpha(Utility.toIntString(color.alpha * 100));
     },
     [color]
   );
   
   return (
     <div {...component_props} className={classes.join(" ")}>
-      <InputField className={"rgb-red"} type={InputFieldType.TEL} label={"Red"} value={red} filter={Utility.number_filter} onChange={onRedChange}/>
-      <InputField className={"rgb-green"} type={InputFieldType.TEL} label={"Green"} value={green} filter={Utility.number_filter} onChange={onGreenChange}/>
-      <InputField className={"rgb-blue"} type={InputFieldType.TEL} label={"Blue"} value={blue} filter={Utility.number_filter} onChange={onBlueChange}/>
-      <InputField className={"rgb-alpha"} type={InputFieldType.TEL} label={"Alpha"} value={alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
+      <InputField className={"rgb-red"} type={InputFieldType.TEL} label={"R"} value={red} filter={Utility.number_filter} onChange={onRedChange}/>
+      <InputField className={"rgb-green"} type={InputFieldType.TEL} label={"G"} value={green} filter={Utility.number_filter} onChange={onGreenChange}/>
+      <InputField className={"rgb-blue"} type={InputFieldType.TEL} label={"B"} value={blue} filter={Utility.number_filter} onChange={onBlueChange}/>
+      <InputField className={"rgb-alpha"} type={InputFieldType.TEL} label={"A"} value={alpha} filter={Utility.number_filter} onChange={onAlphaChange}/>
     </div>
   );
   
@@ -52,7 +52,7 @@ export function RGBInput(props: RGBInputProps) {
   
   function onAlphaChange(event: InputFieldChangeEvent) {
     setAlpha(event.value);
-    onChange(new RGBColor(color.red, color.green, color.blue, Utility.parseAlpha(event.value)).toHSV());
+    onChange(new RGBColor(color.red, color.green, color.blue, Utility.parseDecimal(event.value)).toHSV());
   }
 }
 

@@ -16,10 +16,6 @@ export module Utility {
     return Math.min(Math.max(parseInt(rgb) || 0, 0), 255);
   }
   
-  export function parseAlpha(alpha: string): number {
-    return Math.min(Math.max(parseInt(alpha) || 0, 0), 100);
-  }
-  
   export function parseDegree(input: string): number {
     return Math.min(Math.max(parseInt(input) || 0, 0), 360);
   }

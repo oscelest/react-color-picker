@@ -18,10 +18,10 @@ export function HWBInput(props: HWBInputProps) {
   
   useEffect(
     () => {
-      setHue(Utility.toIntString(color.hue));
-      setWhiteness(Utility.toPercentageString(color.whiteness));
-      setBlackness(Utility.toPercentageString(color.blackness));
-      setAlpha(Utility.toPercentageString(color.alpha));
+      if (color.hue !== Utility.parseDegree(hue)) setHue(Utility.toIntString(color.hue));
+      if (color.whiteness !== Utility.parseDecimal(whiteness)) setWhiteness(Utility.toPercentageString(color.whiteness));
+      if (color.blackness !== Utility.parseDecimal(blackness)) setBlackness(Utility.toPercentageString(color.blackness));
+      if (color.alpha !== Utility.parseDecimal(alpha)) setAlpha(Utility.toPercentageString(color.alpha));
     },
     [color]
   );
@@ -52,7 +52,7 @@ export function HWBInput(props: HWBInputProps) {
   
   function onAlphaChange(event: InputFieldChangeEvent) {
     setAlpha(event.value);
-    onChange(new HWBColor(color.hue, color.whiteness, color.blackness, Utility.parseAlpha(event.value)).toHSV());
+    onChange(new HWBColor(color.hue, color.whiteness, color.blackness, Utility.parseDecimal(event.value)).toHSV());
   }
 }
 

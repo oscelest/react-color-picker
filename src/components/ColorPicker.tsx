@@ -34,7 +34,7 @@ export function ColorPicker(props: ColorPickerProps) {
     <div {...component_props} className={classes.join(" ")} style={style}>
       <div className={"color-picker-control"}>
         <Range className={"color-picker-range-hue"} vertical={true} value={color.hue} min={0} max={360} onChange={onHueChange}/>
-        <Range className={"color-picker-range-alpha"} vertical={true} value={color.alpha * 100} min={0} max={100} onChange={onAlphaChange}/>
+        <Range className={"color-picker-range-alpha"} vertical={true} value={color.alpha} min={0} max={1} onChange={onAlphaChange}/>
       </div>
       <ColorPickerWindow hue={color.hue} x={color.saturation * 100} y={100 - color.value * 100} onChange={onWindowChange}/>
       <ColorPickerPreview color={hex}/>
@@ -47,7 +47,7 @@ export function ColorPicker(props: ColorPickerProps) {
   }
   
   function onAlphaChange(alpha: number) {
-    updateColor(new HSVColor(color.hue, color.saturation, color.value, alpha / 100));
+    updateColor(new HSVColor(color.hue, color.saturation, color.value, alpha));
   }
   
   function onWindowChange(x: number, y: number) {

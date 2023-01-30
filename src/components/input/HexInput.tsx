@@ -1,7 +1,7 @@
+import {HexColor, HSVColor} from "@noxy/color";
 import {InputField, InputFieldChangeEvent, InputFieldType} from "@noxy/react-input-field";
 import React, {HTMLProps, useEffect, useState} from "react";
 import Utility from "../../modules/Utility";
-import {HexColor, HSVColor} from "@noxy/color";
 import Style from "./HexInput.module.css";
 
 export function HexInput(props: HexInputProps) {
@@ -15,7 +15,7 @@ export function HexInput(props: HexInputProps) {
   
   useEffect(
     () => {
-      setHex(color.toString());
+      if (!color.equalTo(new HexColor(HexColor.sanitize(hex)))) setHex(color.toString());
     },
     [color]
   );

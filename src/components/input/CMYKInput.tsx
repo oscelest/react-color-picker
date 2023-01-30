@@ -19,11 +19,11 @@ export function CMYKInput(props: CMYKInputProps) {
   
   useEffect(
     () => {
-      setCyan(Utility.toIntString(color.cyan));
-      setMagenta(Utility.toPercentageString(color.magenta));
-      setYellow(Utility.toPercentageString(color.yellow));
-      setBlack(Utility.toPercentageString(color.black));
-      setAlpha(Utility.toPercentageString(color.alpha));
+      if (color.cyan !== Utility.parseDecimal(cyan)) setCyan(Utility.toIntString(color.cyan));
+      if (color.magenta !== Utility.parseDecimal(magenta)) setMagenta(Utility.toPercentageString(color.magenta));
+      if (color.yellow !== Utility.parseDecimal(yellow)) setYellow(Utility.toPercentageString(color.yellow));
+      if (color.black !== Utility.parseDecimal(black)) setBlack(Utility.toPercentageString(color.black));
+      if (color.alpha !== Utility.parseDecimal(alpha)) setAlpha(Utility.toPercentageString(color.alpha));
     },
     [color]
   );

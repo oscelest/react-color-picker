@@ -21,7 +21,7 @@ export function HSVInput(props: HSVInputProps) {
       if (color.hue !== Utility.parseDegree(hue)) setHue(Utility.toIntString(color.hue));
       if (color.saturation !== Utility.parseDecimal(saturation)) setSaturation(Utility.toPercentageString(color.saturation));
       if (color.value !== Utility.parseDecimal(value)) setValue(Utility.toPercentageString(color.value));
-      if (color.alpha !== Utility.parseAlpha(alpha)) setAlpha(Utility.toPercentageString(color.alpha));
+      if (color.alpha !== Utility.parseDecimal(alpha)) setAlpha(Utility.toPercentageString(color.alpha));
     },
     [color]
   );
@@ -52,7 +52,7 @@ export function HSVInput(props: HSVInputProps) {
   
   function onAlphaChange(event: InputFieldChangeEvent) {
     setAlpha(event.value);
-    onChange(new HSLColor(color.hue, color.saturation, color.value, Utility.parseAlpha(event.value)).toHSV());
+    onChange(new HSLColor(color.hue, color.saturation, color.value, Utility.parseDecimal(event.value)).toHSV());
   }
 }
 
