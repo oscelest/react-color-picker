@@ -14,6 +14,8 @@ export function ColorPickerControl(props: ColorPickerControlProps) {
   const rgb = `${red.toFixed(0)}, ${green.toFixed(0)}, ${blue.toFixed(0)}`
   const style: CSSProperties = {background: `linear-gradient(to top, rgba(${rgb}, 0) 0%, rgba(${rgb}, 1) 100%)`};
   
+  console.log(color.hue);
+  
   return (
     <div {...component_props} className={classes.join(" ")}>
       <Range className={"color-picker-range-hue"} vertical={true} value={color.hue} min={0} max={360} onChange={onHueChange}/>

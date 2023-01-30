@@ -1,6 +1,5 @@
 .Component {
   display:         flex;
-  flex:            0 0 auto;
   justify-content: center;
   grid-column-gap: 12px;
   position:        relative;
@@ -24,4 +23,9 @@
                         rgb(0, 0, 255) 67%,
                         rgb(255, 0, 255) 83%,
                         rgb(255, 0, 0) 100%);
+}
+
+.Component :global(.range[data-vertical="true"] .range-cursor) {
+  width: 12px;
+  height: 7px;
 }
