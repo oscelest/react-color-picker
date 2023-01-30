@@ -8,7 +8,7 @@ export function HexInput(props: HexInputProps) {
   const {color, className, ...component_method_props} = props;
   const {onChange, ...component_props} = component_method_props;
   
-  const classes = [Style.Component, "color-picker-input"];
+  const classes = [Style.Component, "color-picker-hex-input"];
   if (className) classes.push(className);
   
   const [hex, setHex] = useState<string>(color.toString().toLowerCase());

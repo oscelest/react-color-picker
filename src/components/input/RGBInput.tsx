@@ -8,7 +8,7 @@ export function RGBInput(props: RGBInputProps) {
   const {color, className, ...component_method_props} = props;
   const {onChange, ...component_props} = component_method_props;
   
-  const classes = [Style.Component, "color-picker-input"];
+  const classes = [Style.Component, "color-picker-rgb-input"];
   if (className) classes.push(className);
   
   const [red, setRed] = useState<string>(Utility.toIntString(color.red));

@@ -8,7 +8,7 @@ export function HSLInput(props: HSLInputProps) {
   const {color, className, ...component_method_props} = props;
   const {onChange, ...component_props} = component_method_props;
   
-  const classes = [Style.Component, "color-picker-input"];
+  const classes = [Style.Component, "color-picker-hsl-input"];
   if (className) classes.push(className);
   
   const [hue, setHue] = useState<string>(Utility.toIntString(color.hue));
@@ -18,9 +18,9 @@ export function HSLInput(props: HSLInputProps) {
   
   useEffect(
     () => {
-      if (color.hue !== Utility.parseHue(hue)) setHue(Utility.toIntString(color.hue));
-      if (color.saturation !== Utility.parseSVL(saturation)) setSaturation(Utility.toPercentageString(color.saturation));
-      if (color.lightness !== Utility.parseSVL(lightness)) setLightness(Utility.toPercentageString(color.lightness));
+      if (color.hue !== Utility.parseDegree(hue)) setHue(Utility.toIntString(color.hue));
+      if (color.saturation !== Utility.parseDecimal(saturation)) setSaturation(Utility.toPercentageString(color.saturation));
+      if (color.lightness !== Utility.parseDecimal(lightness)) setLightness(Utility.toPercentageString(color.lightness));
       if (color.alpha !== Utility.parseAlpha(alpha)) setAlpha(Utility.toPercentageString(color.alpha));
     },
     [color]
@@ -37,22 +37,22 @@ export function HSLInput(props: HSLInputProps) {
   
   function onHueChange(event: InputFieldChangeEvent) {
     setHue(event.value);
-    onChange(new HSLColor(Utility.parseHue(event.value), color.saturation, color.lightness, color.alpha).toHSV());
+    onChange(new HSLColor(Utility.parseDegree(event.value), color.saturation, color.lightness, color.alpha).toHSV());
   }
   
   function onSaturationChange(event: InputFieldChangeEvent) {
     setSaturation(event.value);
-    onChange(new HSLColor(color.hue, Utility.parseSVL(event.value), color.lightness, color.alpha).toHSV());
+    onChange(new HSLColor(color.hue, Utility.parseDecimal(event.value), color.lightness, color.alpha).toHSV());
   }
   
   function onLightnessChange(event: InputFieldChangeEvent) {
     setLightness(event.value);
-    onChange(new HSLColor(color.hue, color.saturation, Utility.parseSVL(event.value), color.alpha).toHSV());
+    onChange(new HSLColor(color.hue, color.saturation, Utility.parseDecimal(event.value), color.alpha).toHSV());
   }
   
   function onAlphaChange(event: InputFieldChangeEvent) {
     setAlpha(event.value);
-    onChange(new HSLColor(Utility.parseHue(event.value), color.saturation, color.lightness, Utility.parseAlpha(event.value)).toHSV());
+    onChange(new HSLColor(color.hue, color.saturation, color.lightness, Utility.parseAlpha(event.value)).toHSV());
   }
 }
 

@@ -4,6 +4,8 @@ import React, {HTMLProps, useState} from "react";
 import {Utility} from "../modules";
 import Style from "./ColorPickerInput.module.css";
 import {HexInput, HSLInput, HSVInput, RGBInput} from "./input";
+import {CMYKInput} from "./input/CMYKInput";
+import {HWBInput} from "./input/HWBInput";
 
 export function ColorPickerInput(props: ColorPickerInputProps) {
   const {color, className, ...component_method_props} = props;
@@ -28,24 +30,30 @@ export function ColorPickerInput(props: ColorPickerInputProps) {
   function renderInput() {
     switch (type) {
       case 1: {
-        // RGBA values are (0-255, 0-255, 0-255, 0-100)
         return (
           <RGBInput color={color.toRGB()} onChange={onChange}/>
         );
       }
       case 2:
-        // HSVA values are (0-360, 0-1, 0-1, 0-1)
         return (
           <HSVInput color={color} onChange={onChange}/>
         );
       case 3: {
-        // HSLA values are (0-360, 0-1, 0-1, 0-1)
         return (
           <HSLInput color={color.toHSL()} onChange={onChange}/>
         );
       }
+      case 4: {
+        return (
+          <HWBInput color={color.toHWB()} onChange={onChange}/>
+        );
+      }
+      case 5: {
+        return (
+          <CMYKInput color={color.toCMYK()} onChange={onChange}/>
+        );
+      }
       default:
-        // Hex value is (#0f0f0f0f)
         return (
           <HexInput color={color.toHex()} onChange={onChange}/>
         );
