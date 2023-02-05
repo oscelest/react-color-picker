@@ -57,7 +57,7 @@ function renderBackground(hue: number) {
 }
 
 function renderCursor(x?: number, y?: number) {
-  if (typeof x !== "number" || isNaN(x) || typeof y !== "number" && isNaN(y)) return null;
+  if (typeof x !== "number" || isNaN(x) || typeof y !== "number" || isNaN(y)) return null;
   
   const style = {left: `${x}%`, top: `${y}%`};
   

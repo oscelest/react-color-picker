@@ -1,4 +1,4 @@
-import {HSLColor, HSVColor, HWBColor} from "@noxy/color";
+import {HSVColor, HWBColor} from "@noxy/color";
 import {InputField, InputFieldChangeEvent, InputFieldType} from "@noxy/react-input-field";
 import React, {HTMLProps, useEffect, useState} from "react";
 import Utility from "../../modules/Utility";

@@ -36,5 +36,5 @@ export function HexInput(props: HexInputProps) {
 
 export interface HexInputProps extends Omit<HTMLProps<HTMLDivElement>, "color" | "onChange"> {
   color: HexColor;
-  onChange?(color: HSVColor): void;
+  onChange(color: HSVColor): void;
 }
