@@ -9,6 +9,6 @@
 
 .Component :global(.color-picker-type) {
   width:       60px;
-  font-family: monospace;
   box-sizing:  border-box;
+  font-family: monospace;
 }

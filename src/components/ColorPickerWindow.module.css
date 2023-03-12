@@ -1,7 +1,7 @@
 .Component {
+  position:       relative;
   padding-bottom: calc(100% - 2px);
   border:         1px solid black;
-  position:       relative;
 }
 
 .Component :global(.color-picker-window-background) {
@@ -11,8 +11,8 @@
 
 .Component :global(.color-picker-window-background::before),
 .Component :global(.color-picker-window-background::after) {
-  display:  flex;
   content:  " ";
+  display:  flex;
   position: absolute;
   inset:    0;
 }
@@ -29,8 +29,8 @@
   width:         10px;
   height:        10px;
   position:      absolute;
-  transform:     translate(-50%, -50%);
   border:        1px solid white;
   border-radius: 50%;
   box-shadow:    0 0 0 1px black inset;
+  transform:     translate(-50%, -50%);
 }

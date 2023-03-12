@@ -11,7 +11,7 @@ export function ColorPickerControl(props: ColorPickerControlProps) {
   if (className) classes.push(className);
   
   const {red, green, blue} = color.toRGB();
-  const rgb = `${red.toFixed(0)}, ${green.toFixed(0)}, ${blue.toFixed(0)}`
+  const rgb = `${red.toFixed(0)}, ${green.toFixed(0)}, ${blue.toFixed(0)}`;
   const style: CSSProperties = {background: `linear-gradient(to top, rgba(${rgb}, 0) 0%, rgba(${rgb}, 1) 100%)`};
   
   console.log(color.hue);
@@ -28,12 +28,13 @@ export function ColorPickerControl(props: ColorPickerControlProps) {
   }
   
   function onAlphaChange(alpha: number) {
-    onChange(new HSVColor(color.hue, color.saturation, color.value, alpha));}
+    onChange(new HSVColor(color.hue, color.saturation, color.value, alpha));
+  }
   
 }
 
 export interface ColorPickerControlProps extends Omit<HTMLProps<HTMLDivElement>, "color" | "onChange"> {
   color: HSVColor;
   children?: never;
-  onChange(color: HSVColor): void
+  onChange(color: HSVColor): void;
 }

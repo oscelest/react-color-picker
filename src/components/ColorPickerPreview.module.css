@@ -1,9 +1,9 @@
 .Component {
-  position:   relative;
   width:      34px;
   height:     34px;
-  background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) -1px -1px / 9px 9px;
+  position:   relative;
   border:     1px solid black;
+  background: repeating-conic-gradient(#ebebeb 0% 25%, transparent 0% 50%) -1px -1px / 9px 9px;
 }
 
 .Component::before {

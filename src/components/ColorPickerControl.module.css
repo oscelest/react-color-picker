@@ -26,6 +26,6 @@
 }
 
 .Component :global(.range[data-vertical="true"] .range-cursor) {
-  width: 12px;
+  width:  12px;
   height: 7px;
 }
